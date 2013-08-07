@@ -28,6 +28,11 @@ include_directories(include)
 # build the kore library
 add_library(kore SHARED src/display.cpp src/kore.cpp src/safety.cpp src/sensors.cpp src/util.cpp src/workspace.cpp)
 
+# and add our install target
+install(TARGETS kore DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+file(GLOB headers "include/*.hpp" "include/*.h") 
+install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+
 # set up cpack
 set(CPACK_PACKAGE_NAME "kore")
 set(CPACK_SYSTEM_NAME "i386")
