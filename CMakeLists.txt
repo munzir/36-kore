@@ -30,8 +30,10 @@ add_library(kore SHARED src/display.cpp src/kore.cpp src/safety.cpp src/sensors.
 
 # and add our install target
 install(TARGETS kore DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-file(GLOB headers "include/*.hpp" "include/*.h") 
+file(GLOB headers "include/*.hpp")
+file(GLOB headers-kore "include/kore/*.hpp")
 install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+install(FILES ${headers-kore} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/kore)
 
 # set up cpack
 set(CPACK_PACKAGE_NAME "kore")

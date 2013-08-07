@@ -32,7 +32,7 @@
  * @brief Common code for displaying things with curses.
  */
 
-#include "display.hpp"
+#include "kore/display.hpp"
 
 
 namespace Krang {

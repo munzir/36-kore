@@ -32,8 +32,8 @@
  * @brief This header file for workspace control of 7-dof arms.
  */
 
-#include "workspace.hpp"
-#include "display.hpp"
+#include "kore/workspace.hpp"
+#include "kore/display.hpp"
 #include <amino/math.h>
 
 namespace Krang {

@@ -35,7 +35,7 @@
 
 #include "kore.hpp"
 #include <unistd.h>
-#include "display.hpp"
+#include "kore/display.hpp"
 
 using namespace Eigen;
 

@@ -32,8 +32,8 @@
  * @brief This file contains the functions that exert safety checks on inputs to the motors.
  */
 
-#include "safety.hpp"
-#include "display.hpp"
+#include "kore/safety.hpp"
+#include "kore/display.hpp"
 
 namespace Krang {
 

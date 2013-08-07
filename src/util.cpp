@@ -35,7 +35,7 @@
 #include <vector>
 #include <Eigen/Dense>
 
-#include "util.hpp"
+#include "kore/util.hpp"
 
 using namespace std;
 

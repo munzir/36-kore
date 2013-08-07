@@ -34,8 +34,8 @@
 
 #pragma once
 
-#include "sensors.hpp"
-#include "safety.hpp"
+#include "kore/sensors.hpp"
+#include "kore/safety.hpp"
 
 namespace Krang {
 
