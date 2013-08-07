@@ -26,7 +26,7 @@
  */
 
 /**
- * @file workspace.h
+ * @file workspace.hpp
  * @author Can Erdogan, Saul Reynolds-Haertle
  * @date July 27, 2013
  * @brief This header file for workspace control of 7-dof arms.
@@ -34,77 +34,77 @@
 
 #pragma once
 
-#include "util.h"
+#include "util.hpp"
 
 namespace Krang {
 
 /// The interface workspace control - most importatnly contains the reference position for the
 /// end-effector, and the input nullspace and damping gains
-class WorkspaceControl {
-public:
+	class WorkspaceControl {
+	public:
 
 
-	/// Constructor
-	WorkspaceControl (dynamics::SkeletonDynamics* robot, Side side, double _K_posRef_p, 
-			double nullspace_gain, double damping_gain, double ui_translation_gain, 
-			double ui_orientation_gain, double compliance_translation_gain, double compliance_orientation_gain);
+		/// Constructor
+		WorkspaceControl (dynamics::SkeletonDynamics* robot, Side side, double _K_posRef_p, 
+		                  double nullspace_gain, double damping_gain, double ui_translation_gain, 
+		                  double ui_orientation_gain, double compliance_translation_gain, double compliance_orientation_gain);
 
-	/// Integrates the input workspace velocity if one is given. This is for a user interface device
-	/// such as spacenav or joystick whose input is more natural to interpret as velocities.
-	void integrateWSVelocityInput(const Eigen::VectorXd& xdot, const double dt);
+		/// Integrates the input workspace velocity if one is given. This is for a user interface device
+		/// such as spacenav or joystick whose input is more natural to interpret as velocities.
+		void integrateWSVelocityInput(const Eigen::VectorXd& xdot, const double dt);
 
-	/// Returns a reference workspace velocity towards the integrated reference configuration from the
-	/// current end-effector configuration
-	void refWSVelocity(Eigen::VectorXd& xdot);
+		/// Returns a reference workspace velocity towards the integrated reference configuration from the
+		/// current end-effector configuration
+		void refWSVelocity(Eigen::VectorXd& xdot);
 
-	/// Returns a reference jointspace velocity from the given workspace velocity, biasing towards the
-	/// the given jointspace velocity
-	void refJSVelocity(const Eigen::VectorXd& xdot, const Eigen::VectorXd& qdot_nullspace, Eigen::VectorXd& qdot);
+		/// Returns a reference jointspace velocity from the given workspace velocity, biasing towards the
+		/// the given jointspace velocity
+		void refJSVelocity(const Eigen::VectorXd& xdot, const Eigen::VectorXd& qdot_nullspace, Eigen::VectorXd& qdot);
 
-	/// Returns the reference jointspace velocity incorporating the ui device and f/t sensor values
-	void updateFromUIVel(const Eigen::VectorXd& ui, const Eigen::VectorXd& ft,
-	                     const Eigen::VectorXd& qdot_secondary, double dt, Eigen::VectorXd& qdot);
+		/// Returns the reference jointspace velocity incorporating the ui device and f/t sensor values
+		void updateFromUIVel(const Eigen::VectorXd& ui, const Eigen::VectorXd& ft,
+		                     const Eigen::VectorXd& qdot_secondary, double dt, Eigen::VectorXd& qdot);
 
-	/// Returns the reference jointspace velocity incorporating the ui device and f/t sensor values
-	void updateFromXdot (const Eigen::VectorXd& xdot, const Eigen::VectorXd& ft,
-	                     const Eigen::VectorXd& qdot_secondary, double dt, Eigen::VectorXd& qdot);
+		/// Returns the reference jointspace velocity incorporating the ui device and f/t sensor values
+		void updateFromXdot (const Eigen::VectorXd& xdot, const Eigen::VectorXd& ft,
+		                     const Eigen::VectorXd& qdot_secondary, double dt, Eigen::VectorXd& qdot);
 
-	// Returns the reference jointspace velocity incorporating
-	// position input from teh ui device and f/t sensor values
-	void updateFromUIPos(const Eigen::MatrixXd& xref, const Eigen::VectorXd& ft,
-	                     const Eigen::VectorXd& qdot_secondary, Eigen::VectorXd& qdot);
+		// Returns the reference jointspace velocity incorporating
+		// position input from teh ui device and f/t sensor values
+		void updateFromUIPos(const Eigen::MatrixXd& xref, const Eigen::VectorXd& ft,
+		                     const Eigen::VectorXd& qdot_secondary, Eigen::VectorXd& qdot);
 
-	/// Sets the workspace controller's goal to the current end
-	/// effector position
-	void resetReferenceTransform();
+		/// Sets the workspace controller's goal to the current end
+		/// effector position
+		void resetReferenceTransform();
 
-	/// Transforms a velocity-space user interface inptu into a
-	/// workspace velocity
-	Eigen::VectorXd uiInputVelToXdot(const Eigen::VectorXd& ui_vel);
+		/// Transforms a velocity-space user interface inptu into a
+		/// workspace velocity
+		Eigen::VectorXd uiInputVelToXdot(const Eigen::VectorXd& ui_vel);
 
-public:
-	// Variables that represent the state of the end-effector or how we can control it
+	public:
+		// Variables that represent the state of the end-effector or how we can control it
 
-	Eigen::Matrix4d Tref;														///< The integrated or set configuration reference
-	kinematics::BodyNode* endEffector;				///< The end-effector whose configuration we control
-	std::vector<int>* arm_ids;								///< The arm indices that the controller can manipulate
-	bool debug_to_cout;							///< Verbosity for printing debug to standard output
-	bool debug_to_curses;							///< Verbosity for printing debug to curses
+		Eigen::Matrix4d Tref;														///< The integrated or set configuration reference
+		kinematics::BodyNode* endEffector;				///< The end-effector whose configuration we control
+		std::vector<int>* arm_ids;								///< The arm indices that the controller can manipulate
+		bool debug_to_cout;							///< Verbosity for printing debug to standard output
+		bool debug_to_curses;							///< Verbosity for printing debug to curses
 	
-public:
-	// The gains that affect the control
+	public:
+		// The gains that affect the control
 
-	double K_posRef_p;			///< The error gain for the P-controller in deducing ref. WS. velocities
-	double nullspace_gain;	///< The gain which affects how much the reference JS. vel are biased
-	double damping_gain;		///< The damping factor on the Jacobian to deal with singularities
-	double ui_translation_gain;		///< The constant multiplier for ui inputs translations (vel/pos)
-	double ui_orientation_gain;		///< The constant multiplier for ui inputs orientations (vel/pos)
-	double compliance_translation_gain;	///< The effect of compliance in the workspace control
-	double compliance_orientation_gain;	///< The effect of compliance in the workspace control
+		double K_posRef_p;			///< The error gain for the P-controller in deducing ref. WS. velocities
+		double nullspace_gain;	///< The gain which affects how much the reference JS. vel are biased
+		double damping_gain;		///< The damping factor on the Jacobian to deal with singularities
+		double ui_translation_gain;		///< The constant multiplier for ui inputs translations (vel/pos)
+		double ui_orientation_gain;		///< The constant multiplier for ui inputs orientations (vel/pos)
+		double compliance_translation_gain;	///< The effect of compliance in the workspace control
+		double compliance_orientation_gain;	///< The effect of compliance in the workspace control
 
-public:
-	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-};
+	public:
+		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+	};
 
 };	// end of namespace
 

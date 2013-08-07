@@ -62,6 +62,6 @@ namespace Krang {
 	/// Basically, an inverse distance to boundary function which returns higher velocity as the 
 	/// joint limit is approached
 	void computeQdotAvoidLimits(dynamics::SkeletonDynamics* robot, const std::vector <int>& arm_ids, 
-			const Eigen::VectorXd& q, Eigen::VectorXd& qdot_avoid);
+	                            const Eigen::VectorXd& q, Eigen::VectorXd& qdot_avoid);
 
 };	 // end of namespace

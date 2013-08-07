@@ -41,90 +41,90 @@ namespace Krang {
 
 /* ******************************************************************************************** */
 /// The interface to the active motor groups on the robot.
-class Hardware {
-public:
+	class Hardware {
+	public:
 
-	/// The indicators for the motor groups to be used
-	enum Mode {
-		MODE_AMC = 1,
-		MODE_LARM = 2,
-		MODE_RARM = 4,
-		MODE_TORSO = 8,
-		MODE_WAIST = 16,
-		MODE_GRIPPERS = 32,													///< Indicates the robotiq grippers (default)
-		MODE_GRIPPERS_SCH = 64,											///< Indicates the schunk grippers
-		MODE_ALL = MODE_AMC | MODE_LARM | MODE_RARM | MODE_TORSO | MODE_WAIST | MODE_GRIPPERS,
-		MODE_ALL_GRIPSCH = MODE_AMC | MODE_LARM | MODE_RARM | MODE_TORSO | MODE_WAIST | MODE_GRIPPERS_SCH
-	};
+		/// The indicators for the motor groups to be used
+		enum Mode {
+			MODE_AMC = 1,
+			MODE_LARM = 2,
+			MODE_RARM = 4,
+			MODE_TORSO = 8,
+			MODE_WAIST = 16,
+			MODE_GRIPPERS = 32,													///< Indicates the robotiq grippers (default)
+			MODE_GRIPPERS_SCH = 64,											///< Indicates the schunk grippers
+			MODE_ALL = MODE_AMC | MODE_LARM | MODE_RARM | MODE_TORSO | MODE_WAIST | MODE_GRIPPERS,
+			MODE_ALL_GRIPSCH = MODE_AMC | MODE_LARM | MODE_RARM | MODE_TORSO | MODE_WAIST | MODE_GRIPPERS_SCH
+		};
 
-	/// Initializes the interfaces to the motor groups based on the given hardware mode
-	Hardware (Mode mode, somatic_d_t* daemon_cx, dynamics::SkeletonDynamics* robot); 
+		/// Initializes the interfaces to the motor groups based on the given hardware mode
+		Hardware (Mode mode, somatic_d_t* daemon_cx, dynamics::SkeletonDynamics* robot); 
 
-	/// The destructor which sends halt messages to all Schunk modules and 0-velocities to wheels
-	~Hardware ();
+		/// The destructor which sends halt messages to all Schunk modules and 0-velocities to wheels
+		~Hardware ();
 
-public:
-	// Updates the sensor readings and the kinematic structure
+	public:
+		// Updates the sensor readings and the kinematic structure
 
-	/// Updates the sensor readings
-	void updateSensors(double dt);
+		/// Updates the sensor readings
+		void updateSensors(double dt);
 
-	/// Prints the state
-	void printState();
-	void printStateCurses(int row, int col);
+		/// Prints the state
+		void printState();
+		void printStateCurses(int row, int col);
 
-private:	
+	private:	
 
-	/// Updates the Dart's kinematics data structures with the latest readings
-	/// This is made private because updateSensors already calls this. A user should not need to call
-	/// it.
-	void updateKinematics();
+		/// Updates the Dart's kinematics data structures with the latest readings
+		/// This is made private because updateSensors already calls this. A user should not need to call
+		/// it.
+		void updateKinematics();
 
-public:
-	// Initializes the modules and sensors
+	public:
+		// Initializes the modules and sensors
 
-	/// Initializes a motor group that is represented with a somatic structure
-	void initMotorGroup (somatic_motor_t*& motors, const char* cmd_name, const char* state_name, 
-	                     Eigen::VectorXd minPos, Eigen::VectorXd maxPos,
-	                     Eigen::VectorXd minVel, Eigen::VectorXd maxVel);
+		/// Initializes a motor group that is represented with a somatic structure
+		void initMotorGroup (somatic_motor_t*& motors, const char* cmd_name, const char* state_name, 
+		                     Eigen::VectorXd minPos, Eigen::VectorXd maxPos,
+		                     Eigen::VectorXd minVel, Eigen::VectorXd maxVel);
 
-	/// Initializes the amc wheels while using the average imu to create an offset (for absolute 
-	/// wheel positions)
-	void initWheels ();
+		/// Initializes the amc wheels while using the average imu to create an offset (for absolute 
+		/// wheel positions)
+		void initWheels ();
 
-	/// Initializes the imu channel, the filter and averages first 500 readings for correct 
-	/// wheels and f/t offsets
-	void initImu ();
+		/// Initializes the imu channel, the filter and averages first 500 readings for correct 
+		/// wheels and f/t offsets
+		void initImu ();
 
-	/// Initializes the waist module group: (1) first creates the somatic interface without a command
-	/// channel to get updates, (2) second, creates a channel to the waist daemon
-	void initWaist ();
+		/// Initializes the waist module group: (1) first creates the somatic interface without a command
+		/// channel to get updates, (2) second, creates a channel to the waist daemon
+		void initWaist ();
 
-public:
-	// The fields to keep track of the daemon context, mode and the robot kinematics
+	public:
+		// The fields to keep track of the daemon context, mode and the robot kinematics
 	
-	Mode mode;														///< Indicates which motor groups are used
-	somatic_d_t* daemon_cx;								///< The daemon context for the running program
-	dynamics::SkeletonDynamics* robot;		///< The kinematics of the robot
+		Mode mode;														///< Indicates which motor groups are used
+		somatic_d_t* daemon_cx;								///< The daemon context for the running program
+		dynamics::SkeletonDynamics* robot;		///< The kinematics of the robot
 
-public:
-	// The interfaces to the sensors on Krang
+	public:
+		// The interfaces to the sensors on Krang
 
-	ach_channel_t* imu_chan;							///< Imu sensor for balance angle
-	double imu, imuSpeed;									///< Latest imu readings (or the mean over a window)
-	filter_kalman_t* kfImu; 							///< The kalman filter for the imu readings
+		ach_channel_t* imu_chan;							///< Imu sensor for balance angle
+		double imu, imuSpeed;									///< Latest imu readings (or the mean over a window)
+		filter_kalman_t* kfImu; 							///< The kalman filter for the imu readings
 
-	FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
+		FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
 
-public:
-	// The interfaces to the motor groups on Krang
+	public:
+		// The interfaces to the motor groups on Krang
 
-	somatic_motor_t* amc;									///< Wheel motors interface
-	somatic_motor_t* arms[2]; ///< Arm motors interfaces, indexed by side
-	somatic_motor_t* grippers[2]; ///< Gripper motor interfaces, indexed by side
-	somatic_motor_t* torso;								///< Torso motor interface
-	somatic_motor_t* waist;								///< Waist motors interface - only read
-	ach_channel_t* waistCmdChan;					///< Command channel for the waist daemon
-};
+		somatic_motor_t* amc;									///< Wheel motors interface
+		somatic_motor_t* arms[2]; ///< Arm motors interfaces, indexed by side
+		somatic_motor_t* grippers[2]; ///< Gripper motor interfaces, indexed by side
+		somatic_motor_t* torso;								///< Torso motor interface
+		somatic_motor_t* waist;								///< Waist motors interface - only read
+		ach_channel_t* waistCmdChan;					///< Command channel for the waist daemon
+	};
 
 };	// end of namespace

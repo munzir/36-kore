@@ -44,7 +44,7 @@ namespace Krang {
 	extern int COLOR_GREEN_BACKGROUND;
 	extern int COLOR_WHITE_BACKGROUND;
 
-    // some configuration and utility variables
+	// some configuration and utility variables
 	extern int curses_display_precision;
 	extern int curses_display_row;
 	extern bool doing_curses;
