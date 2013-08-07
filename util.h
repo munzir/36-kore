@@ -68,7 +68,7 @@ Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _
 /// The indicator for the left or right side	
 enum Side {
 	LEFT = 0,
-	RIGHT
+	RIGHT = 1
 };
 
 /* ******************************************************************************************** */

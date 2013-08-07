@@ -51,6 +51,9 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynam
 
 	// Initialize all the 'optional' pointers to nulls and sanity check the inputs
 	amc = torso = NULL;
+	fts[LEFT] = fts[RIGHT] = NULL;
+	arms[LEFT] = arms[RIGHT] = NULL;
+	grippers[LEFT] = grippers[RIGHT] = NULL;
 	waistCmdChan = NULL;
 	assert((daemon_cx != NULL) && "Can not give null daemon context to hardware constructor");
 	assert((robot != NULL) && "Can not give null dart kinematics to hardware constructor");
@@ -108,8 +111,8 @@ Hardware::~Hardware () {
 	filter_kalman_destroy(kfImu);	
 
 	// Destroy the ft sensors
-	if(fts.count(LEFT) != 0) delete fts[LEFT];
-	if(fts.count(RIGHT) != 0) delete fts[RIGHT];
+	if(fts[LEFT] != NULL) delete fts[LEFT];
+	if(fts[RIGHT] != NULL) delete fts[RIGHT];
 	
 	// Send zero velocity to amc and clean it up
 	double zeros2[2] = {0.0, 0.0}, zeros7[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; 
@@ -121,24 +124,24 @@ Hardware::~Hardware () {
 
 	// Send halt messages directly to the left and right arms
 	// TODO: should we be halting the arms?
-	if(arms.count(RIGHT) != 0) {
+	if(arms[RIGHT] != NULL) {
 		somatic_motor_halt(daemon_cx, arms[RIGHT]);
 		somatic_motor_destroy(daemon_cx, arms[RIGHT]);
 		delete arms[RIGHT];
 	}
-	if(arms.count(LEFT) != 0) {
+	if(arms[LEFT] != NULL) {
 		somatic_motor_halt(daemon_cx, arms[LEFT]);
 		somatic_motor_destroy(daemon_cx, arms[LEFT]);
 		delete arms[LEFT];
 	}
 	
 	// Destroy the gripper motors
-	if(grippers.count(LEFT) != 0) { 
+	if(grippers[LEFT] != NULL) { 
 		somatic_motor_halt(daemon_cx, grippers[LEFT]);
 		somatic_motor_destroy(daemon_cx, grippers[LEFT]);
 		delete grippers[LEFT];
 	}
-	if(grippers.count(RIGHT) != 0) { 
+	if(grippers[RIGHT] != NULL) { 
 		somatic_motor_halt(daemon_cx, grippers[RIGHT]);
 		somatic_motor_destroy(daemon_cx, grippers[RIGHT]);
 		delete grippers[RIGHT];
