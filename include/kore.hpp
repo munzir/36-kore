@@ -26,18 +26,16 @@
  */
 
 /**
- * @file kore.h
- * @author Can Erdogan
+ * @file kore.hpp
+ * @author Can Erdogan, Saul Reynolds-Haertle
  * @date July 24, 2013
  * @brief The main header file for the "K"rang "O"peration "R"untime "E"nvironment 
  */
 
 #pragma once
 
-#include "sensors.h"
-#include "safety.h"
-
-using namespace Eigen;
+#include "sensors.hpp"
+#include "safety.hpp"
 
 namespace Krang {
 

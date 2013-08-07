@@ -26,10 +26,10 @@
  */
 
 /**
- * @file common.cpp
+ * @file util.hpp
  * @author Can Erdogan
  * @date July 25, 2013
- * @brief The main header file for common utilities
+ * @brief Generally useful things for people using kore
  */
 
 #pragma once

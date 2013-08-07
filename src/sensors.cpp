@@ -32,7 +32,7 @@
  * @brief The source file for the sensor class and helper functions associated with Krang.
  */
 
-#include "sensors.h"
+#include "sensors.hpp"
 #include <vector>
 
 using namespace std;

@@ -26,13 +26,13 @@
  */
 
 /**
- * @file safety.h
+ * @file safety.cpp
  * @author Can Erdogan, Saul Reynolds-Haertle
  * @date July 27, 2013
  * @brief This file contains the functions that exert safety checks on inputs to the motors.
  */
 
-#include "safety.h"
+#include "safety.hpp"
 #include "display.hpp"
 
 namespace Krang {

@@ -33,7 +33,7 @@
  * Hardware struct constructor.
  */
 
-#include "kore.h"
+#include "kore.hpp"
 #include <unistd.h>
 #include "display.hpp"
 

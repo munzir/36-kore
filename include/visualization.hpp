@@ -42,7 +42,7 @@
 
 #pragma once
 
-#include "kore.h"
+#include "kore.hpp"
 
 namespace Krang {
 

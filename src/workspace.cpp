@@ -32,7 +32,7 @@
  * @brief This header file for workspace control of 7-dof arms.
  */
 
-#include "workspace.h"
+#include "workspace.hpp"
 #include "display.hpp"
 #include <amino/math.h>
 

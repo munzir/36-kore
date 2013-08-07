@@ -26,15 +26,15 @@
  */
 
 /**
- * @file sensors.h
- * @author Can Erdogan
+ * @file sensors.hpp
+ * @author Can Erdogan, Saul Reynolds-Haertle
  * @date July 24, 2013
  * @brief The header file for the sensor class and helper functions associated with Krang.
  */
 
 #pragma once
 
-#include "util.h"
+#include "util.hpp"
 
 namespace Krang {
 
