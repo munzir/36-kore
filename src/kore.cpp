@@ -262,7 +262,7 @@ namespace Krang {
 		double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
 		int num_data = 0;
 		imu = imuSpeed = 0.0;
-		while(aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0) {
+		while((num_data < 100) || (aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0)) {
 			double tempImu, tempImuSpeed;
 			getImu(imu_chan, tempImu, tempImuSpeed, 0.0, NULL); 
 			imu += tempImu, imuSpeed += tempImuSpeed;

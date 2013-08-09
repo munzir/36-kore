@@ -70,7 +70,7 @@ namespace Krang {
 		double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
 		int num_data = 0;
 		Vector6d data = Vector6d::Zero(), temp;
-		while(aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0) {
+		while((num_data < 100) || (aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0)) {
 			num_data++;
 			bool gotReading = false;
 			while(!gotReading) gotReading = getRaw(temp);
