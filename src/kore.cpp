@@ -258,14 +258,17 @@ namespace Krang {
 		imu_chan = new ach_channel_t();
 		somatic_d_channel_open(daemon_cx, imu_chan, "imu-data", NULL);
 
-		// Average the first 500 readings
+		// Average the first second's worth of readings
+		double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
+		int num_data = 0;
 		imu = imuSpeed = 0.0;
-		for(int i = 0; i < 500; i++) {
+		while(aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0) {
 			double tempImu, tempImuSpeed;
 			getImu(imu_chan, tempImu, tempImuSpeed, 0.0, NULL); 
 			imu += tempImu, imuSpeed += tempImuSpeed;
+			num_data++;
 		}
-		imu /= 500.0, imuSpeed /= 500.0;
+		imu /= (double)num_data, imuSpeed /= (double)num_data;
 
 		// Create the kalman filter
 		kfImu = new filter_kalman_t;

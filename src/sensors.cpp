@@ -66,14 +66,17 @@ namespace Krang {
 		}
 		else gripperCoM = Vector3d(0.0, -0.000, 0.013);
 
-		// Average the first 1000 readings to compute the offset
+		// Average one second's worth of FT readings and average to get a good initial reading
+		double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
+		int num_data = 0;
 		Vector6d data = Vector6d::Zero(), temp;
-		for(size_t i = 0; i < 1e3; i++) {
+		while(aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0) {
+			num_data++;
 			bool gotReading = false;
 			while(!gotReading) gotReading = getRaw(temp);
 			data += temp;
 		}
-		data /= 1e3;
+		data /= (double)num_data;
 
 		// Compute the offset between what the reading should be and what it is assuming no external
 		// forces
