@@ -67,7 +67,7 @@ namespace Krang {
 
 		curses_display_precision = 30;
 		curses_display_row = 15;
-		doing_curses = false;
+		doing_curses = true;
 
 		// color
 		start_color();              // start printing in color
@@ -86,7 +86,7 @@ namespace Krang {
 	/// Close down and clean up after curses
 	void destroy_curses() {
 		// tell people to stop doing curses
-		doing_curses = true;
+		doing_curses = false;
 		
 		// and clear out the curses configurations
 		clrtoeol();
