@@ -39,21 +39,23 @@
 
 namespace Krang {
 
-	extern int COLOR_RED_BACKGROUND;
-	extern int COLOR_YELLOW_BACKGROUND;
-	extern int COLOR_GREEN_BACKGROUND;
-	extern int COLOR_WHITE_BACKGROUND;
+extern int COLOR_RED_BACKGROUND;
+extern int COLOR_YELLOW_BACKGROUND;
+extern int COLOR_GREEN_BACKGROUND;
+extern int COLOR_WHITE_BACKGROUND;
 
-	// some configuration and utility variables
-	extern int curses_display_precision;
-	extern int curses_display_row;
-	extern bool doing_curses;
-	
-	// functions for starting up and shutting down curses cleanly
-	void init_curses();
-	void destroy_curses();
+// some configuration and utility variables
+extern int curses_display_precision;
+extern int curses_display_row;
+extern bool doing_curses;
 
-	// functions for nicely formatted and aligned debug output
-	void curses_display_vector(const Eigen::VectorXd& v, const char* label = "", int column = 0, int color = COLOR_WHITE);
-	void curses_display_matrix(const Eigen::MatrixXd& m, const char* label = "", int column = 0, int color = COLOR_WHITE);
+// functions for starting up and shutting down curses cleanly
+void init_curses();
+void destroy_curses();
+
+// functions for nicely formatted and aligned debug output
+void curses_display_vector(const Eigen::VectorXd& v, const char* label = "", int column = 0, 
+		int color = COLOR_WHITE);
+void curses_display_matrix(const Eigen::MatrixXd& m, const char* label = "", int column = 0, 
+		int color = COLOR_WHITE);
 }

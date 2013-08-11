@@ -106,5 +106,6 @@ void computeQdotAvoidLimits(dynamics::SkeletonDynamics* robot, const std::vector
 		}
 	}
 }
+
 /* ******************************************************************************************** */
-};
+}; // end of namespace
