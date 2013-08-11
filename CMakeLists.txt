@@ -35,6 +35,14 @@ file(GLOB headers-kore "include/kore/*.hpp")
 install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 install(FILES ${headers-kore} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/kore)
 
+# Create a specific target to install the configuration files for the Krang and object model
+add_custom_target(install-config
+	COMMAND rm -rf /etc/kore
+	COMMAND mkdir /etc/kore 
+	COMMAND cp -r ../etc/model /etc/kore/
+	COMMAND cp -r ../etc/objects /etc/kore/
+)
+
 # set up cpack
 set(CPACK_PACKAGE_NAME "kore")
 set(CPACK_SYSTEM_NAME "i386")
