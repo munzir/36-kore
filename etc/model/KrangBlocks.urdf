@@ -51,8 +51,10 @@
 			<!-- an offset of -0.02937 is added due to bad dae file and to align with base com -->
       <origin xyz="-0.02937 0.285314 0.0974926"/>
     </inertial>
-		<visual> <origin xyz="-0.026 0.230150 0.053887"/> <geometry> <box size="0.2340 0.59430 0.24097"/> </geometry> </visual> 
-		<collision> <origin xyz="-0.026 0.230150 0.053887"/> <geometry> <box size="0.2340 0.59430 0.24097"/> </geometry> </collision> 
+		<visual> <origin xyz="-0.028 0.230 0.108"/> <geometry> <box size="0.134 0.60 0.133"/> </geometry> </visual> 
+		<visual> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.235 0.16 0.135"/> </geometry> </visual> 
+		<collision> <origin xyz="-0.028 0.230 0.108"/> <geometry> <box size="0.134 0.60 0.133"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.235 0.16 0.135"/> </geometry> </collision> 
 	</link>
 
 	<link name = "Bracket"> 
@@ -148,12 +150,18 @@
 	</link>
 
 	<link name = "lgPlate1">
-    <inertial> <mass value="0.0001"/> </inertial>
+    <inertial> 
+			<mass value="0.0001"/> 
+			<inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.1" iyz="0.1" izz="0.1"/>
+		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/gripperPlate.dae" /> </geometry> </visual>
 	</link> 	
 
 	<link name = "lgPlate2">
-    <inertial> <mass value="0.0001"/> </inertial>
+    <inertial> 
+			<mass value="0.0001"/> 
+			<inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.1" iyz="0.1" izz="0.1"/>
+		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/gripperPlate.dae" /> </geometry> </visual>
 	</link> 	
 
@@ -229,12 +237,18 @@
 	</link>
 
 	<link name = "rgPlate1">
-    <inertial> <mass value="0.0001"/> </inertial>
+    <inertial> 
+			<mass value="0.0001"/> 
+			<inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.1" iyz="0.1" izz="0.1"/>
+		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/gripperPlate.dae" /> </geometry> </visual>
 	</link> 	
 
 	<link name = "rgPlate2">
-    <inertial> <mass value="0.0001"/> </inertial>
+    <inertial> 
+			<mass value="0.0001"/> 
+			<inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.1" iyz="0.1" izz="0.1"/>
+		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/gripperPlate.dae" /> </geometry> </visual>
 	</link> 	
 

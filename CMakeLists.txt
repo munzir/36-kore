@@ -41,6 +41,7 @@ add_custom_target(install-config
 	COMMAND mkdir /etc/kore 
 	COMMAND cp -r ../etc/model /etc/kore/
 	COMMAND cp -r ../etc/objects /etc/kore/
+	COMMAND cp -r ../etc/scenes /etc/kore/
 )
 
 # set up cpack

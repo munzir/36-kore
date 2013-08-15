@@ -93,11 +93,12 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynam
 	// Updates the robot kinematics
 	updateKinematics();
 
-	// After initializing the rest of the robot (need kinematics), we can initialize f/t sensors. 
-	// TODO: Determine the type of the gripper from the mode
+	// Determine the type of grippers from input mode
 	FT::GripperType ft_grippers;
-	if (mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
-	if (mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
+	if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
+	if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
+
+	// After initializing the rest of the robot (need kinematics), we can initialize f/t sensors. 
 	if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot, LEFT);
 	if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx, robot, RIGHT);
 }
