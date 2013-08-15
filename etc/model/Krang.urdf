@@ -20,8 +20,8 @@
       <inertia ixx="0.102019" ixy="2.45462e-05" ixz="0.00713022" iyy="0.0832724" iyz="-0.00131733" izz="0.086493"/>
       <origin xyz="0 0 0"/>
     </inertial>
-		<visual> <geometry> <mesh filename="wheel.dae" /> </geometry> </visual> 
-		<collision> <geometry> <mesh filename="wheel.dae" /> </geometry> </collision> 
+		<visual> <origin xyz="0 0 -0.026"/> <geometry> <mesh filename="../model/wheel.dae"/> </geometry> </visual>
+		<collision> <origin xyz="-0.002 0 0" rpy="0 1.5708 0"/> <geometry> <cylinder length="0.077" radius="0.268"/> </geometry> </collision> 
 	</link>
 
 	<link name = "RWheel"> 
@@ -30,8 +30,8 @@
       <inertia ixx="0.102019" ixy="2.45462e-05" ixz="0.00713022" iyy="0.0832724" iyz="-0.00131733" izz="0.086493"/>
       <origin xyz="0 0 0"/>
     </inertial>
-		<visual> <geometry> <mesh filename="wheel.dae" /> </geometry> </visual> 
-		<collision> <geometry> <mesh filename="wheel.dae" /> </geometry> </collision> 
+		<visual> <origin xyz="0 0 -0.026"/> <geometry> <mesh filename="../model/wheel.dae"/> </geometry> </visual>
+		<collision> <origin xyz="-0.002 0 0" rpy="0 1.5708 0"/> <geometry> <cylinder length="0.077" radius="0.268"/> </geometry> </collision> 
 	</link>
 
 	<link name = "Base"> 
