@@ -1,6 +1,6 @@
 <!-- blueCubeObject.urdf -->
 
-<object name="redCube_111">
+<robot name="redCube_111">
 
 	<!-- Link 0 -->
 	<link name="link_0">

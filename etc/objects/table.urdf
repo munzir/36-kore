@@ -1,6 +1,6 @@
 <!-- glassDiningTable.urdf -->
 
-<object name="glassDiningTable">
+<robot name="glassDiningTable">
 
 	<!-- Link 0 -->
 	<link name="link_0">

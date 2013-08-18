@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!-- @file 03-World-IK.urdf -->
+<!-- @author Can Erdogan -->
+<!-- @date May 13, 2013 -->
+<!-- @brief Contains the definition for the world setup where the green arrow object -->
+<!-- dictates the position and the direction for the end-effector and the red objects are the -->
+<!-- obstacles that the IK should avoid. -->
+ 
+<world name="schunk_with_desktop">
+	
+	<!-- Include the models by including either the complete urdf or referencing the file name -->
+	<include filename="../model/Krang.urdf" model_name="krang"/>
+	<include filename="../objects/sitBox.urdf" model_name="box"/>
+	<include filename="../objects/table.urdf" model_name="table"/>
+	<include filename="../objects/cup.urdf" model_name="cup"/>
+
+	<entity model="krang" name="Krang"> <origin xyz="0.0 0.0 0.28" rpy="3.00 0 -1.5708"/> </entity>  
+	<entity model="box" name="Box"> <origin xyz="-0.6 0.0 0.075" rpy="1.5708 0 1.5708 "/> </entity>
+	<entity model="table" name="Table"> <origin xyz="0.7 0.0 0.45" rpy="0 0 0"/> </entity>
+	<entity model="cup" name="Cup"> <origin xyz="0.7 0.0 0.85" rpy="0 0 0"/> </entity>
+</world> 
