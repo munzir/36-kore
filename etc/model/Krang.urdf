@@ -157,7 +157,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 	<link name = "lFingerB">
@@ -166,7 +171,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 	<link name = "lFingerC">
@@ -175,7 +185,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 	<link name = "R1"> 
@@ -258,7 +273,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 	<link name = "rFingerB">
@@ -267,7 +287,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 	<link name = "rFingerC">
@@ -276,7 +301,12 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
-		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
+		<collision> <origin xyz="-0.032 -0.0035 -0.01185" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.07 0.0366"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.072 -0.0035 0.002" rpy="1.05 0.0 1.5708"/> 
+			<geometry> <box size="0.035 0.049 0.0356"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.0815 -0.0035 0.048" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.036 0.024 0.047"/> </geometry> </collision> 
 	</link> 	
 
 
