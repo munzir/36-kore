@@ -145,7 +145,10 @@
       <origin xyz="0 0 0.1055"/>
     </inertial>
 		<visual> <geometry> <mesh filename="Schunk/L7.dae" /> </geometry> </visual> 
-		<collision> <origin xyz="0.0 -0.0 0.02615" rpy="0.0 0.0 1.5708"/> <geometry> <box size="0.08 0.112 0.2025"/> </geometry> </collision> 
+		<collision> 
+			<origin xyz="0.0 -0.0 0.028" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.15 0.125 0.210"/> </geometry> 
+		</collision> 
 	</link>
 
 	<link name = "lFingerA">
@@ -154,6 +157,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 	<link name = "lFingerB">
@@ -162,6 +166,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 	<link name = "lFingerC">
@@ -170,6 +175,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 	<link name = "R1"> 
@@ -240,7 +246,10 @@
       <origin xyz="0 0 0.1055"/>
     </inertial>
 		<visual> <geometry> <mesh filename="Schunk/L7.dae" /> </geometry> </visual> 
-		<collision> <origin xyz="0.0 -0.0 0.02615" rpy="0.0 0.0 1.5708"/> <geometry> <box size="0.08 0.112 0.2025"/> </geometry> </collision> 
+		<collision> 
+			<origin xyz="0.0 -0.0 0.028" rpy="0.0 0.0 1.5708"/> 
+			<geometry> <box size="0.15 0.125 0.210"/> </geometry> 
+		</collision> 
 	</link>
 
 	<link name = "rFingerA">
@@ -249,6 +258,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 	<link name = "rFingerB">
@@ -257,6 +267,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 	<link name = "rFingerC">
@@ -265,6 +276,7 @@
 			<inertia ixx="1e-4" ixy="1e-4" ixz="1e-4" iyy="1e-4" iyz="1e-4" izz="1e-4"/>
 		</inertial>
 		<visual> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </visual>
+		<collision> <geometry> <mesh filename="Schunk/finger.dae" /> </geometry> </collision>
 	</link> 	
 
 
