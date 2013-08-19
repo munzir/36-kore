@@ -340,38 +340,38 @@
 	</joint>
 
 	<joint name="LJ1" type="revolute"> <parent link="Bracket" /> <child link="L1" />
-		<origin xyz = "0.2823 0.000 0" rpy="0 3.1416 -1.5708" />
+		<origin xyz = "0.2823 0.000 0" rpy="0 3.141592 -1.570796" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ2" type="revolute"> <parent link="L1" /> <child link="L2" />
-		<origin xyz="0 0.0 0" rpy="3.14 3.14 0" />
+		<origin xyz="0 0.0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ3" type="revolute"> <parent link="L2" /> <child link="L3" />
-		<origin xyz="0 -0.328 0" rpy="-3.1416 -3.1416 0" />
+		<origin xyz="0 -0.328 0" rpy="-3.141592 -3.141592 0" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ4" type="revolute"> <parent link="L3" /> <child link="L4" />
-		<origin xyz="0 0 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ5" type="revolute"> <parent link="L4" /> <child link="L5" />
-		<origin xyz="0 -0.2765 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 -0.2765 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ6" type="revolute"> <parent link="L5" /> <child link="L6" />
-		<origin xyz="0 0.0 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 0.0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<!-- For some reason, I had to negate the axis to make sure the motor turns like the others -->
 	<joint name="LJFT" type="revolute"> <parent link="L6" /> <child link="lGripper" />
-		<origin xyz="0 -0.200 0" rpy="1.5708 3.1416 0" />
+		<origin xyz="0 -0.200 0" rpy="1.570796 3.141592 0" />
 		<axis xyz="0 0 -1" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
@@ -393,37 +393,37 @@
 	<!-- Right arm -->
 
 	<joint name="RJ1" type="revolute"> <parent link="Bracket" /> <child link="R1" />
-		<origin xyz = "-0.2823 0.0 0" rpy="0 0 1.5708" />
+		<origin xyz = "-0.2823 0.0 0" rpy="0 0 1.570796" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="RJ2" type="revolute"> <parent link="R1" /> <child link="R2" />
-		<origin xyz="0 0.0 0" rpy="3.14 3.14 0" />
+		<origin xyz="0 0.0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<joint name="RJ3" type="revolute"> <parent link="R2" /> <child link="R3" />
-		<origin xyz="0 -0.328 0" rpy="-3.1416 -3.1416 0" />
+		<origin xyz="0 -0.328 0" rpy="-3.141592 -3.141592 0" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="RJ4" type="revolute"> <parent link="R3" /> <child link="R4" />
-		<origin xyz="0 0 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<joint name="RJ5" type="revolute"> <parent link="R4" /> <child link="R5" />
-		<origin xyz="0 -0.2765 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 -0.2765 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
 	<joint name="RJ6" type="revolute"> <parent link="R5" /> <child link="R6" />
-		<origin xyz="0 0.0 0" rpy="3.1416 3.1416 0" />
+		<origin xyz="0 0.0 0" rpy="3.141592 3.141592 0" />
 		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-2.094" upper="2.094" velocity="0.1" />
 	</joint>
 
 	<joint name="RJFT" type="revolute"> <parent link="R6" /> <child link="rGripper" />
-		<origin xyz="0 -0.200 0" rpy="1.5708 3.1416 0" />
+		<origin xyz="0 -0.200 0" rpy="1.570796 3.141592 0" />
 		<axis xyz="0 0 -1" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
