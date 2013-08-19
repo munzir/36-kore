@@ -64,7 +64,7 @@
       <origin xyz="0 0.080606 -0.00314267"/>
     </inertial>
 		<visual> <geometry> <mesh filename="bracket.dae" /> </geometry> </visual> 
-		<collision> <origin xyz="0.0012875 0.0582 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </collision> 
+		<collision> <origin xyz="0.0012875 -0.022 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </collision> 
 	</link>
 
 	<link name = "Kinect"> 

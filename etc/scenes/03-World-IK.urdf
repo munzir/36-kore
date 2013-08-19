@@ -9,7 +9,7 @@
 <world name="schunk_with_desktop">
 	
 	<!-- Include the models by including either the complete urdf or referencing the file name -->
-	<include filename="../model/Krang.urdf" model_name="krang"/>
+	<include filename="../model/KrangBlocks.urdf" model_name="krang"/>
 	<include filename="../objects/greenArrow.urdf" model_name="arrow"/>
 
 	<entity model="krang" name="Krang"> <origin xyz="0.0 0.0 0.33" rpy="1.5708 0 -1.5708"/> </entity> 

@@ -52,9 +52,9 @@
       <origin xyz="-0.02937 0.285314 0.0974926"/>
     </inertial>
 		<visual> <origin xyz="-0.028 0.230 0.108"/> <geometry> <box size="0.134 0.60 0.133"/> </geometry> </visual> 
-		<visual> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.235 0.16 0.135"/> </geometry> </visual> 
+		<visual> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.435 0.16 0.135"/> </geometry> </visual> 
 		<collision> <origin xyz="-0.028 0.230 0.108"/> <geometry> <box size="0.134 0.60 0.133"/> </geometry> </collision> 
-		<collision> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.235 0.16 0.135"/> </geometry> </collision> 
+		<collision> <origin xyz="-0.026 0.012 0"/> <geometry> <box size="0.435 0.16 0.135"/> </geometry> </collision> 
 	</link>
 
 	<link name = "Bracket"> 
@@ -64,8 +64,8 @@
 			<!-- offseted with 0.0827 because the origin of the bracket is at the bottom -->
       <origin xyz="0 0.080606 -0.00314267"/>
     </inertial>
-		<visual> <origin xyz="0.0012875 0.0582 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </visual> 
-		<collision> <origin xyz="0.0012875 0.0582 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </collision> 
+		<visual> <origin xyz="0.0012875 -0.022 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </visual> 
+		<collision> <origin xyz="0.0012875 -0.022 -0.0280530"/> <geometry> <box size="0.2815 0.23 0.22611"/> </geometry> </collision> 
 	</link>
 
 	<link name = "Kinect"> 
@@ -367,17 +367,17 @@
 	</joint>
 
 	<joint name="JTorso" type="revolute"> <parent link="Spine" /> <child link="Bracket" />
-		<origin xyz = "-0.0285 0.584 0.1088" rpy="0 3.1416 0" /> 
+		<origin xyz = "-0.0270 0.6670 0.1088" rpy="0 3.1416 0" /> 
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-0.8" upper="0.8" velocity="0.1" />
 	</joint>
 
-	<joint name="JKinect" type="revolute"> <parent link="Bracket" /> <child link="Kinect" />
-		<origin xyz = "-0.001 0.1805 -0.1120" rpy="3.1416 0 0" />
+	<joint name="JKinect" type="fixed"> <parent link="Bracket" /> <child link="Kinect" />
+		<origin xyz = "-0.000 0.0985 -0.1120" rpy="2.5416 0 0" />
 		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ1" type="revolute"> <parent link="Bracket" /> <child link="L1" />
-		<origin xyz = "0.2823 0.0845 0" rpy="0 3.1416 -1.5708" />
+		<origin xyz = "0.2823 0.000 0" rpy="0 3.1416 -1.5708" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
@@ -430,7 +430,7 @@
 	<!-- Right arm -->
 
 	<joint name="RJ1" type="revolute"> <parent link="Bracket" /> <child link="R1" />
-		<origin xyz = "-0.2823 0.0845 0" rpy="0 0 1.5708" />
+		<origin xyz = "-0.2823 0.0 0" rpy="0 0 1.5708" />
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-4.7124" upper="4.7124" velocity="0.1" />
 	</joint>
 
