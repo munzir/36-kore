@@ -567,7 +567,7 @@
 	</joint>
 
 	<joint name="JPan" type="revolute"> <parent link="Bracket" /> <child link="TiltMotor" />
-		<origin xyz = "-0.0015 0.0755 -0.071" rpy="2.5416 0 -1.5708" />
+		<origin xyz = "-0.0015 0.0755 -0.071" rpy="0 0 -1.5708" />
 		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
