@@ -102,15 +102,29 @@
 		</collision> 
 	</link>
 
-	<link name = "Kinect"> 
+	<link name = "TiltMotor"> 
 		<inertial>
 			<mass value="0.705"/>
 			<inertia ixx="0.102" ixy="2.45e-05" ixz="0.00713" iyy="0.0832" iyz="-0.00131" izz="0.0864"/>
 			<origin xyz="0.0 -0.04 -0.028"/>
 		</inertial>
-		<visual>
+		<visual> 
+			<geometry> <mesh filename="tilt.dae"/> </geometry> 
+		</visual> 
+		<collision>
 			<origin xyz="0.0 -0.0251 -0.0185"/> 
 			<geometry> <box size="0.28 0.07 0.063"/> </geometry> 
+		</collision> 
+	</link>
+
+	<link name = "Kinect">
+		<inertial>
+			<mass value="0.705"/>
+			<inertia ixx="0.102" ixy="2.45e-05" ixz="0.00713" iyy="0.0832" iyz="-0.00131" izz="0.0864"/>
+			<origin xyz="0.0 -0.04 -0.028"/>
+		</inertial>
+		<visual> 
+			<geometry> <mesh filename="kinect.dae"/> </geometry> 
 		</visual> 
 		<collision>
 			<origin xyz="0.0 -0.0251 -0.0185"/> 
@@ -552,8 +566,13 @@
 		<axis xyz="0 -1 0" /> <limit effort="1000" lower="-0.8" upper="0.8" velocity="0.1" />
 	</joint>
 
-	<joint name="JKinect" type="revolute"> <parent link="Bracket" /> <child link="Kinect" />
-		<origin xyz = "-0.000 0.0985 -0.1120" rpy="2.5416 0 0" />
+	<joint name="JPan" type="revolute"> <parent link="Bracket" /> <child link="TiltMotor" />
+		<origin xyz = "-0.0015 0.0755 -0.071" rpy="2.5416 0 -1.5708" />
+		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
+	</joint>
+
+	<joint name="JTilt" type="revolute"> <parent link="TiltMotor" /> <child link="Kinect" />
+		<origin xyz = "-0.042 0.0 0.0055" rpy="0 0 1.5708" />
 		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
