@@ -492,12 +492,12 @@
 	</joint>
 
 	<joint name="JPan" type="revolute"> <parent link="Bracket" /> <child link="TiltMotor" />
-		<origin xyz = "-0.0015 0.0755 -0.071" rpy="0 0 -1.5708" />
+		<origin xyz = "-0.0015 0.0755 -0.071" rpy="3.1416 0 -1.5708" />
 		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
 	<joint name="JTilt" type="revolute"> <parent link="TiltMotor" /> <child link="Kinect" />
-		<origin xyz = "-0.042 0.0 0.0055" rpy="0 0 1.5708" />
+		<origin xyz = "-0.0702 0.0 -0.0067" rpy="0 3.1416 1.5708" />
 		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
