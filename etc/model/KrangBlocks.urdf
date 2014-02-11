@@ -573,7 +573,7 @@
 
 	<joint name="JTilt" type="revolute"> <parent link="TiltMotor" /> <child link="Kinect" />
 		<origin xyz = "-0.0702 0.0 -0.0067" rpy="0 3.1416 1.5708" />
-		<axis xyz="1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
+		<axis xyz="-1 0 0" /> <limit effort="1000" lower="-3.1416" upper="3.1416" velocity="0.1" />
 	</joint>
 
 	<joint name="LJ1" type="revolute"> <parent link="Bracket" /> <child link="L1" />
