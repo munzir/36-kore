@@ -38,6 +38,8 @@
 
 namespace Krang {
 
+static const size_t IMU_CHANNEL_SIZE = 54;
+
 /* ******************************************************************************************** */
 class FT {
 public:
