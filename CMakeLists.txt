@@ -18,6 +18,7 @@ include(cmake/simulation.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen3 REQUIRED)
 include_directories(EIGEN3_INCLUDE_DIR)
+include_directories(/usr/include/eigen3)
 
 # link to various libraries that we need
 link_libraries(protobuf-c amino ach somatic filter stdc++ ncurses)
