@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="cinder">
+  <link name="cinder">
+		<visual> <geometry> <mesh filename="mesh/cinder.dae" /> </geometry> </visual>
+  </link>
+</robot>
