@@ -27,7 +27,8 @@ link_libraries(protobuf-c amino ach somatic filter stdc++ ncurses)
 include_directories(include)
 
 # build the kore library
-add_library(kore SHARED src/display.cpp src/kore.cpp src/safety.cpp src/sensors.cpp src/util.cpp src/workspace.cpp)
+add_library(kore SHARED src/display.cpp src/kore.cpp src/safety.cpp src/sensors.cpp src/util.cpp src/workspace.cpp
+		src/ik.cpp)
 
 # and add our install target
 install(TARGETS kore DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

@@ -72,6 +72,8 @@ enum Side {
 /* ******************************************************************************************** */
 // IDs for the dart kinematic structure
 
+extern std::vector <int> base_ids;					///< Ids for the lower body (x,y,th,imu,waist)
+extern std::vector <int> kinect_ids;				///< Ids for the motors that control kinect
 extern std::vector <int> left_arm_ids;			///< Ids for left arm 
 extern std::vector <int> right_arm_ids;			///< Ids for right arm
 extern std::vector <int> imuWaist_ids;			///< Ids for waist/imu
