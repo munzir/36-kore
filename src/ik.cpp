@@ -59,7 +59,7 @@ bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDyn
 	}
 
 	// Set the arm back to its original pose if failure
-	if(!success) krang->setConfig(arm_ids, ql);
+	krang->setConfig(arm_ids, ql);
 	return success;
 }
 

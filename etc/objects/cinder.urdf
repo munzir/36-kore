@@ -2,5 +2,9 @@
 <object name="cinder">
   <link name="root">
 		<visual> <geometry> <mesh filename="mesh/cinder.dae" /> </geometry> </visual>
+		<collision> 
+			<origin xyz="0 0.196 0"/> 
+			<geometry> <box size="0.26 0.39 0.26"/> </geometry> 
+		</collision> 
   </link>
 </robot>
