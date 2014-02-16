@@ -64,7 +64,7 @@ bool singleArmIKLimitsAndCollsBestWheel (simulation::World* mWorld,
 		// Determine the distance between the closest two links 
 		double minDistSq = 16.0;
 		const char* names [6] = {"L2", "L3", "L4", "L5", "L6", "lFingerA"}; 
-		Eigen::Vector3d wheelLoc = krang->getNode("LWheel")->getWorldCOM();
+		Eigen::Vector3d wheelLoc = krang->getNode(rightArm ? "RWheel" : "LWheel")->getWorldCOM();
 		for(size_t dof_idx = 0; dof_idx < 6; dof_idx++) {
 
 			// Get the link location
