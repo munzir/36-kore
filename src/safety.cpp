@@ -32,10 +32,52 @@
  * @brief This file contains the functions that exert safety checks on inputs to the motors.
  */
 
+#include "collision/CollisionDetector.h"
+#include "collision/fcl_mesh/FCLMESHCollisionDetector.h"
+#include "dynamics/ConstraintDynamics.h"
+#include "dynamics/ContactDynamics.h"
+
 #include "kore/safety.hpp"
 #include "kore/display.hpp"
+#include <kore/util.hpp>
 
 namespace Krang {
+
+/* ********************************************************************************************* */
+/// Setup the collision model for Krang
+void setupKrangCollisionModel (simulation::World* mWorld, dynamics::SkeletonDynamics* robot) {
+
+	// Get the pointers to the robot and collision detector
+	robot->setSelfCollidable(true);
+	collision::FCLMESHCollisionDetector* detector = 
+		(collision::FCLMESHCollisionDetector*) mWorld->getCollisionHandle()->getCollisionChecker();
+
+	// Enable the collisions between all the nodes except the child/parent ones
+	size_t numNodes = robot->getNumNodes();
+	for(size_t i = 0; i < numNodes; i++) {
+		for(size_t j = i + 1; j < numNodes; j++) {
+
+			// Decide to whether should deactive or activate the node based on the parentage
+			bool shouldDisable = false;
+			if(robot->getNode(i)->getParentNode() == robot->getNode(j)) shouldDisable = true;
+			if(robot->getNode(j)->getParentNode() == robot->getNode(i)) shouldDisable = true;
+
+			// Enable/deactive the pair
+			if(shouldDisable) detector->deactivatePair(robot->getNode(i), robot->getNode(j));
+			else detector->activatePair(robot->getNode(i), robot->getNode(j));
+		}
+	}
+
+	// Additionally, deactive the connections between the Kinect and base arm motors
+	detector->deactivatePair(robot->getNode("Kinect"), robot->getNode("L1"));
+	detector->deactivatePair(robot->getNode("Kinect"), robot->getNode("R1"));
+
+	// Additionally, deactive the connections between the fingers
+	detector->deactivatePair(robot->getNode("lFingerA"), robot->getNode("lFingerB"));
+	detector->deactivatePair(robot->getNode("lFingerA"), robot->getNode("lFingerC"));
+	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerB"));
+	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerC"));
+}
 
 /* ******************************************************************************************** */
 bool checkCurrentLimits (const Eigen::VectorXd& cur) {

@@ -64,4 +64,8 @@ bool checkCurrentLimits (const double* cur, size_t n);
 void computeQdotAvoidLimits(dynamics::SkeletonDynamics* robot, const std::vector <int>& arm_ids, 
 														const Eigen::VectorXd& q, Eigen::VectorXd& qdot_avoid);
 
+
+/// Sets the collision options of the world environment
+void setupKrangCollisionModel (simulation::World* mWorld, dynamics::SkeletonDynamics* robot);
+
 };	 // end of namespace

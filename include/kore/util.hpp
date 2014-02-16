@@ -48,6 +48,7 @@
 #include <kinematics/BodyNode.h>
 #include <kinematics/Dof.h>
 #include <math/UtilsRotation.h>
+#include <simulation/World.h>
 
 #include <Eigen/Dense>
 

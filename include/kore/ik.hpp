@@ -15,11 +15,12 @@
 #include <simulation/World.h>
 #include <kinematics/BodyNode.h>
 #include <math/UtilsRotation.h>
+#include <kore/util.hpp>
 
 using namespace dynamics;
 using namespace simulation;
 
-typedef Eigen::Matrix <double, 7, 1> Vector7d;
+namespace Krang {
 
 // The link lengths
 static const double theta1Offset = 0.1838;		
@@ -64,6 +65,10 @@ void getT1 (const Eigen::Transform<double, 3, Eigen::Affine>& relGoal,
 bool ik (const Eigen::Transform<double, 3, Eigen::Affine>& relGoal, double phi, 
 		Eigen::Matrix <double, 7, 1>& theta);
 
+/// Performs IK with joint limit and collision checks
+bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDynamics* krang, 
+		const Eigen::Matrix4d& Twee, bool rightArm, double dtphi, Vector7d& theta);
+
 /// Computes the inverse-kinematics for the wrist-elbow-shoulder case. SingleArmIK calls this.
 bool singleArmIK (const Eigen::VectorXd& base_conf, const Eigen::Matrix4d& Twee, bool rightArm, 
 		double phi, Vector7d& th);
@@ -72,3 +77,4 @@ bool singleArmIK (const Eigen::VectorXd& base_conf, const Eigen::Matrix4d& Twee,
 void getWristInShoulder (const Eigen::Matrix4d& Twb_, const Eigen::Matrix4d& Twee, bool rightArm, 
     Eigen::Matrix4d& TswM);
 
+}; // end of namespace

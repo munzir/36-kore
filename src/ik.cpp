@@ -6,6 +6,7 @@
  */
 
 #include "kore/ik.hpp"
+#include "kore/util.hpp"
 
 #define transform(x,T) ((T * Eigen::Vector4d(x(0), x(1), x(2), 1.0)).topLeftCorner<3,1>())
 
@@ -14,8 +15,55 @@ bool ignoreIKDist = false;
 using namespace Eigen;
 using namespace std;
 
+namespace Krang {
+
 /* ********************************************************************************************* */
-/// Can avoid collisions and joint limits
+bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDynamics* krang, 
+		const Matrix4d& Twee, bool rightArm, double dtphi, Vector7d& theta) {
+
+	static const bool debug = 0;
+
+	// Perform I.K. with different arm angles until no collisions or limit problems
+	vector <int>& arm_ids = rightArm ? right_arm_ids : left_arm_ids;
+	Eigen::VectorXd ql = krang->getConfig(arm_ids);
+	Eigen::VectorXd qb = krang->getConfig(base_ids);
+	bool result, success = false;
+	for(double phi = 0.0; phi < 2*M_PI; phi+=dtphi) {
+	
+		// Perform I.K.
+		if(debug) cout << "phi: " << phi << endl;
+		result = singleArmIK(qb, Twee, false, phi, theta);
+		if(debug) cout << "\tresult: " << result << endl;
+		if(!result) continue;
+
+		// Check for joint angles
+		bool badJoint = false;
+		for(size_t i = 0; i < 7; i++) {
+			kinematics::Dof* dof = krang->getDof(arm_ids[i]);
+			if((theta(i) < dof->getMin()) || (theta(i) > dof->getMax())) {
+				badJoint = true;
+				break;
+			}
+		}
+		if(debug) cout << "\tjoint angles violated: " << badJoint << endl;
+		if(badJoint) continue;
+
+		// Check for collisions
+		krang->setConfig(arm_ids, theta);
+		bool collision = mWorld->checkCollision(false);
+		if(debug) cout << "\tcollision: " << collision << endl;
+		if(!collision) {
+			success = true;
+			break;
+		}
+	}
+
+	// Set the arm back to its original pose if failure
+	if(!success) krang->setConfig(arm_ids, ql);
+	return success;
+}
+
+/* ********************************************************************************************* */
 bool singleArmIK (const VectorXd& base_conf, const Matrix4d& Twee, bool rightArm, double phi,
 		Vector7d& theta) {
 	
@@ -31,7 +79,6 @@ bool singleArmIK (const VectorXd& base_conf, const Matrix4d& Twee, bool rightArm
 	Transform <double, 3, Affine> sTb (AngleAxis <double> (M_PI, Vector3d(0.0, 1.0, 0.0)));
 	sTb.translation() = Vector3d(-0.027, 0.667, 0.1088);
 	Eigen::Matrix4d Twb = (wTba * baTs * sTb).matrix();
-	cout << "Twb: \n" << Twb << endl;
 
 	// Get the relative goal
 	Transform <double, 3, Affine> relGoal;
@@ -251,3 +298,5 @@ bool ik (const Transform<double, 3, Affine>& relGoal, double phi, Matrix <double
 
 	return true;
 }
+
+}; // end of namespace
