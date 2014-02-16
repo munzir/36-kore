@@ -11,7 +11,7 @@
 	<include filename="../model/Krang.urdf" model_name="krang"/>
 	<include filename="../objects/obstacle.urdf" model_name="obstacle"/>
 
-	<entity model="krang" name="Krang"> <origin xyz="0.0 0.0 0.27" rpy="1.5708 0 -1.5708"/> </entity>  
+	<entity model="krang" name="Krang"> <origin xyz="0.0 0.0 0.267" rpy="1.5708 0 -1.5708"/> </entity>  
 	<entity model="obstacle" name="Obstacle"> <origin xyz="-1.32 -0.33 0.45" rpy="1.5708 0 1.5708 "/> </entity>
 	<entity model="obstacle" name="Obstacle2"> <origin xyz="-1.32 1 0.45" rpy="1.5708 0 1.5708 "/> </entity>
 </world> 
