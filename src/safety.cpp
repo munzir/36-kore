@@ -77,6 +77,10 @@ void setupKrangCollisionModel (simulation::World* mWorld, dynamics::SkeletonDyna
 	detector->deactivatePair(robot->getNode("lFingerA"), robot->getNode("lFingerC"));
 	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerB"));
 	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerC"));
+
+	// Deactive the ground base collisions temporarily
+	detector->deactivatePair(robot->getNode("Base"), 
+		mWorld->getSkeleton("ground")->getNode("ground"));
 }
 
 /* ******************************************************************************************** */
