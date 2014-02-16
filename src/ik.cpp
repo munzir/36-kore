@@ -19,6 +19,88 @@ using namespace std;
 namespace Krang {
 
 /* ********************************************************************************************* */
+bool singleArmIKLimitsAndCollsBestWheel (simulation::World* mWorld, 
+		dynamics::SkeletonDynamics* krang, const Matrix4d& Twee, bool rightArm, double dtphi, 
+		Vector7d& theta) {
+
+	static const bool debug = 0;
+
+	// Perform I.K. with different arm angles until no collisions or limit problems
+	vector <int>& arm_ids = rightArm ? right_arm_ids : left_arm_ids;
+	Eigen::VectorXd ql = krang->getConfig(arm_ids);
+	Eigen::VectorXd qb = krang->getConfig(base_ids);
+	bool result, success = false;
+	double maxMinDistSq = -16.0;
+	Vector7d bestTheta;
+	double bestPhi = 0.0;
+	for(double phi = 0.0; phi < 2*M_PI; phi+=dtphi) {
+	
+		// Perform I.K.
+		if(debug) cout << "phi: " << phi << endl;
+		Vector7d someTheta = VectorXd(7);
+		result = singleArmIK(qb, Twee, false, phi, someTheta);
+		if(debug) cout << "\tresult: " << result << ", someTheta: " << someTheta.transpose() << endl;
+		if(!result) continue;
+
+		// Check for joint angles
+		bool badJoint = false;
+		for(size_t i = 0; i < 7; i++) {
+			kinematics::Dof* dof = krang->getDof(arm_ids[i]);
+			if((someTheta(i) < dof->getMin()) || (someTheta(i) > dof->getMax())) {
+				badJoint = true;
+				break;
+			}
+		}
+		if(debug) cout << "\tjoint angles violated: " << badJoint << endl;
+		if(badJoint) continue;
+
+		// Check for collisions
+		krang->setConfig(arm_ids, someTheta);
+		bool collision = mWorld->checkCollision(false);
+		if(debug) cout << "\tcollision: " << collision << endl;
+		if(collision) continue;
+		success = true;
+
+		// Determine the distance between the closest two links 
+		double minDistSq = 16.0;
+		const char* names [6] = {"L2", "L3", "L4", "L5", "L6", "lFingerA"}; 
+		Eigen::Vector3d wheelLoc = krang->getNode("LWheel")->getWorldCOM();
+		for(size_t dof_idx = 0; dof_idx < 6; dof_idx++) {
+
+			// Get the link location
+			Eigen::Vector3d loc2 = krang->getNode(names[dof_idx])->getWorldCOM();
+
+			// Get the closest location on the wheel to the node
+			Eigen::Vector3d dir = (loc2 - wheelLoc).normalized() ;
+			dir(1) = 0.0;
+			Eigen::Vector3d loc1 = wheelLoc + dir * 0.267;
+
+			// Compute the distance 
+			double distSq = (loc1 - loc2).squaredNorm();
+			if(distSq < minDistSq) minDistSq = distSq;
+	
+		}
+		
+		if(debug) cout << "\tminDistSq: " << minDistSq << " vs. maxMinDistSq: " 
+			<< maxMinDistSq << endl;
+
+		// Check if it is more than the current maximum minAngle
+		if(minDistSq > maxMinDistSq) {
+			maxMinDistSq = minDistSq;	
+			bestPhi = phi;
+			bestTheta = someTheta;
+		}
+	}
+
+	if(debug) cout << "bestPhi: " << bestPhi << endl;
+
+	// Set the arm back to its original pose if failure
+	theta = bestTheta;
+	krang->setConfig(arm_ids, ql);
+	return success;
+}
+
+/* ********************************************************************************************* */
 bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDynamics* krang, 
 		const Matrix4d& Twee, bool rightArm, double dtphi, Vector7d& theta) {
 

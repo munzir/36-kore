@@ -22,6 +22,8 @@ using namespace simulation;
 
 namespace Krang {
 
+/* ******************************************************************************************** */
+
 // The link lengths
 static const double theta1Offset = 0.1838;		
 static const double L1 = .5074;				///> Distance between wheel axes and the waist module
@@ -42,6 +44,23 @@ static const Eigen::Matrix4d A =
 /// distal elbow frame. In Krang, this represents the 7th frame in the 'rotated' 6th frame.
 static const Eigen::Matrix4d B = 
 		(Eigen::MatrixXd(4,4) << 1,0,0,0,0,0,-1,L6,0,1,0,0,0,0,0,1).finished();
+
+/* ******************************************************************************************** */
+
+/// Performs IK with joint limit and collision checks and returns the best option wrt the wheel
+bool singleArmIKLimitsAndCollsBestWheel (simulation::World* mWorld, 
+		dynamics::SkeletonDynamics* krang, const Eigen::Matrix4d& Twee, bool rightArm, double dtphi, 
+		Vector7d& theta);
+
+/// Performs IK with joint limit and collision checks
+bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDynamics* krang, 
+		const Eigen::Matrix4d& Twee, bool rightArm, double dtphi, Vector7d& theta);
+
+/// Computes the inverse-kinematics for the wrist-elbow-shoulder case. SingleArmIK calls this.
+bool singleArmIK (const Eigen::VectorXd& base_conf, const Eigen::Matrix4d& Twee, bool rightArm, 
+		double phi, Vector7d& th);
+
+/* ******************************************************************************************** */
 
 /// Returns the angles of a rotation matrix with respect to three axes n1, n2 and n2 such that
 /// n1 \perpto n2 and n2 \perpto n3. 
@@ -65,16 +84,10 @@ void getT1 (const Eigen::Transform<double, 3, Eigen::Affine>& relGoal,
 bool ik (const Eigen::Transform<double, 3, Eigen::Affine>& relGoal, double phi, 
 		Eigen::Matrix <double, 7, 1>& theta);
 
-/// Performs IK with joint limit and collision checks
-bool singleArmIKLimitsAndColls (simulation::World* mWorld, dynamics::SkeletonDynamics* krang, 
-		const Eigen::Matrix4d& Twee, bool rightArm, double dtphi, Vector7d& theta);
-
-/// Computes the inverse-kinematics for the wrist-elbow-shoulder case. SingleArmIK calls this.
-bool singleArmIK (const Eigen::VectorXd& base_conf, const Eigen::Matrix4d& Twee, bool rightArm, 
-		double phi, Vector7d& th);
-
 /// Returns the goal frame of the wrist in the shoulder frame
 void getWristInShoulder (const Eigen::Matrix4d& Twb_, const Eigen::Matrix4d& Twee, bool rightArm, 
     Eigen::Matrix4d& TswM);
+
+/* ******************************************************************************************** */
 
 }; // end of namespace
