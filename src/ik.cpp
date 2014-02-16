@@ -7,6 +7,7 @@
 
 #include "kore/ik.hpp"
 #include "kore/util.hpp"
+#include <amino/math.h>
 
 #define transform(x,T) ((T * Eigen::Vector4d(x(0), x(1), x(2), 1.0)).topLeftCorner<3,1>())
 
@@ -116,7 +117,9 @@ void getWristInShoulder (const Matrix4d& Twb_, const Matrix4d& Twee, bool rightA
 
 	// Get the end-effector in the bracket frame
 	Transform <double, 3, Affine> Tbee;
-	Tbee.matrix() = Twb.inverse() * Twee;
+	Eigen::Matrix4d TwbInv = Twb;
+	aa_la_inv(4, TwbInv.data());
+	Tbee.matrix() = TwbInv * Twee;
 	
 	// =======================================================================
 	// Now, we want the waist frame in the shoulder frame. This requires
@@ -286,7 +289,10 @@ bool ik (const Transform<double, 3, Affine>& relGoal, double phi, Matrix <double
 	getT1(relGoal, Te, elbow, T1);
 
 	// Comptute the transformation between the proximal and distal wrist frames, T2
-	Transform<double, 3, Affine> T2 ((T1.matrix() * A * Te.matrix() * B).inverse() * relGoal.matrix());
+	Eigen::Matrix4d bla = (T1.matrix() * A * Te.matrix() * B);
+	Eigen::Matrix4d blaInv = bla;
+	aa_la_inv(4, blaInv.data());
+	Transform<double, 3, Affine> T2 (blaInv * relGoal.matrix());
 
 	// Define the two types of motor axes 
 	Vector3d type1 = Vector3d(0.0, 0.0, 1.0);
