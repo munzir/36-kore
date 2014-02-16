@@ -68,6 +68,15 @@ void setupKrangCollisionModel (simulation::World* mWorld, dynamics::SkeletonDyna
 		}
 	}
 
+	// Disable to nodes between two-consecutive arm links due to large collision boxes
+	// used to handle loose motors
+	detector->deactivatePair(robot->getNode("L1"), robot->getNode("L3"));
+	detector->deactivatePair(robot->getNode("L3"), robot->getNode("L5"));
+	detector->deactivatePair(robot->getNode("L5"), robot->getNode("lGripper"));
+	detector->deactivatePair(robot->getNode("R1"), robot->getNode("R3"));
+	detector->deactivatePair(robot->getNode("R3"), robot->getNode("R5"));
+	detector->deactivatePair(robot->getNode("R5"), robot->getNode("rGripper"));
+
 	// Additionally, deactive the connections between the Kinect and base arm motors
 	detector->deactivatePair(robot->getNode("Kinect"), robot->getNode("L1"));
 	detector->deactivatePair(robot->getNode("Kinect"), robot->getNode("R1"));
@@ -75,8 +84,10 @@ void setupKrangCollisionModel (simulation::World* mWorld, dynamics::SkeletonDyna
 	// Additionally, deactive the connections between the fingers
 	detector->deactivatePair(robot->getNode("lFingerA"), robot->getNode("lFingerB"));
 	detector->deactivatePair(robot->getNode("lFingerA"), robot->getNode("lFingerC"));
+	detector->deactivatePair(robot->getNode("lFingerB"), robot->getNode("lFingerC"));
 	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerB"));
 	detector->deactivatePair(robot->getNode("rFingerA"), robot->getNode("rFingerC"));
+	detector->deactivatePair(robot->getNode("rFingerB"), robot->getNode("rFingerC"));
 
 	// Deactive the ground base collisions temporarily
 	dynamics::SkeletonDynamics* ground = mWorld->getSkeleton("ground");
