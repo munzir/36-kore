@@ -84,9 +84,9 @@ public:
 	// Initializes the modules and sensors
 
 	/// Initializes a motor group that is represented with a somatic structure
-	void initMotorGroup (somatic_motor_t*& motors, const char* cmd_name, const char* state_name, 
-											 Eigen::VectorXd minPos, Eigen::VectorXd maxPos,
-											 Eigen::VectorXd minVel, Eigen::VectorXd maxVel);
+	static void initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors, 
+			const char* cmd_name, const char* state_name, Eigen::VectorXd minPos, 
+			Eigen::VectorXd maxPos, Eigen::VectorXd minVel, Eigen::VectorXd maxVel);
 
 	/// Initializes the amc wheels while using the average imu to create an offset (for absolute 
 	/// wheel positions)

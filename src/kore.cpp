@@ -69,19 +69,23 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynam
 
 	// Initialize the Schunk (+ Robotiq) motor groups
 	if(mode & MODE_LARM) 
-		initMotorGroup(arms[LEFT], "llwa-cmd", "llwa-state", -lim7, lim7, -lim7, lim7);	
+		initMotorGroup(daemon_cx, arms[LEFT], "llwa-cmd", "llwa-state", -lim7, lim7, -lim7, lim7);	
 	if(mode & MODE_RARM) 
-		initMotorGroup(arms[RIGHT], "rlwa-cmd", "rlwa-state", -lim7, lim7, -lim7, lim7);	
+		initMotorGroup(daemon_cx, arms[RIGHT], "rlwa-cmd", "rlwa-state", -lim7, lim7, -lim7, lim7);	
 	if(mode & MODE_TORSO) 
-		initMotorGroup(torso, "torso-cmd", "torso-state", -lim1, lim1, -lim1, lim1);	
+		initMotorGroup(daemon_cx, torso, "torso-cmd", "torso-state", -lim1, lim1, -lim1, lim1);	
 	if((mode & MODE_LARM) && (mode & MODE_GRIPPERS_SCH))
-		initMotorGroup(grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim1, lim1, -lim1, lim1);
+		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim1, lim1, 
+			-lim1, lim1);
 	if((mode & MODE_LARM) && (mode & MODE_GRIPPERS))
-		initMotorGroup(grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim4, lim4, -lim4, lim4);
+		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim4, lim4, 
+			-lim4, lim4);
 	if((mode & MODE_RARM) && (mode & MODE_GRIPPERS_SCH))
-		initMotorGroup(grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim1, lim1, -lim1, lim1);
+		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim1, lim1, 
+			-lim1, lim1);
 	if((mode & MODE_RARM) && (mode & MODE_GRIPPERS))
-		initMotorGroup(grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim4, lim4, -lim4, lim4);
+		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim4, lim4, 
+			-lim4, lim4);
 
 	// Initialize the wheel motor groups which depend on imu readings to get absolute wheel positions
 	if(mode & MODE_AMC) initWheels();
@@ -310,8 +314,9 @@ void Hardware::initWheels () {
 }
 
 /* ******************************************************************************************** */
-void Hardware::initMotorGroup (somatic_motor_t*& motors, const char* cmd_name, const char* 
-															 state_name, VectorXd minPos, VectorXd maxPos, VectorXd minVel, VectorXd maxVel) {
+void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors, 
+		const char* cmd_name, const char* state_name, VectorXd minPos, VectorXd maxPos, 
+		VectorXd minVel, VectorXd maxVel) {
 
 	// Initialize the somatic motor struct with the channel names and the number of modules
 	motors = new somatic_motor_t();
