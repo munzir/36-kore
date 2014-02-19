@@ -23,7 +23,7 @@ bool singleArmIKLimitsAndCollsBestWheel (simulation::World* mWorld,
 		dynamics::SkeletonDynamics* krang, const Matrix4d& Twee, bool rightArm, double dtphi, 
 		Vector7d& theta) {
 
-	static const bool debug = 0;
+	static const bool debug = 1;
 
 	// Perform I.K. with different arm angles until no collisions or limit problems
 	vector <int>& arm_ids = rightArm ? right_arm_ids : left_arm_ids;

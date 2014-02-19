@@ -104,13 +104,17 @@ typedef Eigen::Matrix<double, 6, 6> Matrix6d;		///< A typedef to contain wrenche
 /* ********************************************************************************************* */
 // as above, but nicely formatted. Prints fixed-point, fixed-width, and fixed-precision for 
 // aligned columns and no exponents.
+#define DISPLAY_SCALAR(SCA)                                             \
+	{std::cout << std::setw(20) << std::left << #SCA; \
+			std::cout << SCA << std::endl;}
+
 #define DISPLAY_VECTOR(VEC)                                             \
-	{std::cout << std::setw(25) << std::left << #VEC; \
-			for(int i = 0; i < VEC.size(); i++) std::cout << std::fixed << std::setw(12) << VEC[i]; \
+	{std::cout << std::setw(20) << std::left << #VEC; \
+			for(int i = 0; i < VEC.size(); i++) std::cout << std::setprecision(3) << std::fixed << std::setw(8) << VEC[i]; \
 			std::cout << std::endl;}
 
 #define DISPLAY_MATRIX(MAT)                                             \
-	{std::cout << std::setw(25) << std::left << #MAT << std::endl; \
+	{std::cout << std::setw(20) << std::left << #MAT << std::endl; \
 			for(int r = 0; r < MAT.rows(); r++) { \
 				std::cout << "    "; \
 				for(int c = 0; c < MAT.cols(); c++) { \
