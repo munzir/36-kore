@@ -13,6 +13,6 @@
 	<include filename="../objects/cinder.urdf" model_name="cinder"/>
 
 	<entity model="krang" name="Krang"> <origin xyz="0.0 0.0 0.267" rpy="3.00 0 -1.5708"/> </entity>  
-	<entity model="cinder" name="Cinder"> <origin xyz="0.4 0.7 0.0" rpy="1.5708 0 1.75"/> </entity>
+	<entity model="cinder" name="Cinder"> <origin xyz="0.22 0.645 0.0" rpy="1.5708 0 1.75"/> </entity>
 
 </world> 
