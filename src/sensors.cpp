@@ -170,7 +170,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	struct timespec abstime = aa_tm_add(aa_tm_sec2timespec(1.0/30.0), currTime);
 	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector, 
 																											&protobuf_c_system_allocator, IMU_CHANNEL_SIZE, imuChan, &abstime);
-	assert((imu_msg != NULL) && "Didn't get IMU message!");
+	if(imu_msg == NULL) return;
 
 	// Get the imu position and velocity value from the readings (note imu mounted at 45 deg).
 	static const double mountAngle = -.7853981634;
