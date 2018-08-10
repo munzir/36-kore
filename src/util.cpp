@@ -62,7 +62,7 @@ int dart_root_dof_ids_a[] =  {0,1,2,5,4,3};
 std::vector<int> dart_root_dof_ids(dart_root_dof_ids_a, dart_root_dof_ids_a + 6);
 
 /* ******************************************************************************************** */
-Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _order) {
+/*Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _order) {
 
 	// Extract the translation
 	Eigen::Vector3d posV = T.topRightCorner<3,1>();
@@ -75,10 +75,10 @@ Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _
 	Eigen::VectorXd V(6);
 	V << posV, rotV;
 	return V;
-}
+}*/
 
 /* ******************************************************************************************** */
-Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _order) {
+/*Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _order) {
 
 	// Extract the translation
 	Eigen::Vector3d posV; posV << V[0], V[1], V[2];
@@ -93,7 +93,7 @@ Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _
 	T.topRightCorner<3,1>() = posV;
 	T.row(3) << 0,0,0,1;
 	return T;
-}
+}*/
 
 /* ******************************************************************************************** */
 Eigen::MatrixXd fix (const Eigen::MatrixXd& mat) {

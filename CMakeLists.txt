@@ -14,7 +14,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 # Include Dart, Grip, and Eigen
-include(cmake/simulation.cmake)
+#include(cmake/simulation.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen3 REQUIRED)
 include_directories(EIGEN3_INCLUDE_DIR)
@@ -27,8 +27,7 @@ link_libraries(protobuf-c amino ach somatic filter stdc++ ncurses)
 include_directories(include)
 
 # build the kore library
-add_library(kore SHARED src/display.cpp src/kore.cpp src/safety.cpp src/sensors.cpp src/util.cpp src/workspace.cpp
-		src/ik.cpp)
+add_library(kore SHARED src/display.cpp src/kore.cpp src/sensors.cpp src/util.cpp)
 
 # and add our install target
 install(TARGETS kore DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

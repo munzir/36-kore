@@ -49,7 +49,7 @@ bool doing_curses;
 
 /* ############################################################################################## */
 /// Set up a curses display and some commonly used color pairs.
-void init_curses() {
+/*void init_curses() {
 	// tell people to do curses
 	doing_curses = true;
 	
@@ -80,11 +80,11 @@ void init_curses() {
 	init_pair(COLOR_GREEN_BACKGROUND, COLOR_BLACK, COLOR_GREEN);
 	init_pair(COLOR_WHITE_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
 	
-}
+}*/
 
 /* ############################################################################################## */
 /// Close down and clean up after curses
-void destroy_curses() {
+/*void destroy_curses() {
 	// tell people to stop doing curses
 	doing_curses = false;
 	
@@ -92,14 +92,14 @@ void destroy_curses() {
 	clrtoeol();
 	refresh();
 	endwin();
-}
+}*/
 
 /* ############################################################################################## */
 /// Clean and easy function for displaying a vector in curses. This uses a global variable for
 /// keeping track of which rows have been printed to, so all you need to do to use this is make
 /// sure you set curses_display_row to something sensible at the beginning of every iteration
 /// of your main loop.
-void curses_display_vector(const Eigen::VectorXd& v, const char* label, int column, int color) {
+/*void curses_display_vector(const Eigen::VectorXd& v, const char* label, int column, int color) {
 	attron(COLOR_PAIR(color));
 	mvprintw(curses_display_row, 1, label);
 	for(int i = 0; i < v.size(); i++)
@@ -108,14 +108,14 @@ void curses_display_vector(const Eigen::VectorXd& v, const char* label, int colu
 						 "%.8lf", v[i]);
 	curses_display_row++;
 	attroff(COLOR_PAIR(color));
-}
+}*/
 
 /* ############################################################################################## */
 /// Clean and easy function for displaying a matrix in curses. This uses a global variable for
 /// keeping track of which rows have been printed to, so all you need to do to use this is make
 /// sure you set curses_display_row to something sensible at the beginning of every iteration
 /// of your main loop.
-void curses_display_matrix(const Eigen::MatrixXd& m, const char* label, int column, int color) {
+/*void curses_display_matrix(const Eigen::MatrixXd& m, const char* label, int column, int color) {
 	attron(COLOR_PAIR(color));
 	mvprintw(curses_display_row, 1, label);
 	for(int mrow = 0; mrow < m.rows(); mrow++) {
@@ -126,6 +126,6 @@ void curses_display_matrix(const Eigen::MatrixXd& m, const char* label, int colu
 		curses_display_row++;
 	}
 	attroff(COLOR_PAIR(color));
-}
+}*/
 
 }	// end of namespace

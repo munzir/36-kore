@@ -35,7 +35,7 @@
 #pragma once
 
 #include "kore/sensors.hpp"
-#include "kore/safety.hpp"
+//#include "kore/safety.hpp"
 
 namespace Krang {
 
@@ -70,8 +70,8 @@ public:
 	void updateSensors(double dt);
 
 	/// Prints the state
-	void printState();
-	void printStateCurses(int row, int col);
+//	void printState();
+//	void printStateCurses(int row, int col);
 
 private:	
 

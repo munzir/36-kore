@@ -211,7 +211,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 }
 
 /* ******************************************************************************************** */
-SpaceNav::SpaceNav (somatic_d_t* _daemon_cx, char* _chan_name, double _cache_timeout) {
+/*SpaceNav::SpaceNav (somatic_d_t* _daemon_cx, char* _chan_name, double _cache_timeout) {
 	// grab variables
 	this->daemon_cx = _daemon_cx;
 	this->cache_timeout = _cache_timeout;
@@ -224,18 +224,18 @@ SpaceNav::SpaceNav (somatic_d_t* _daemon_cx, char* _chan_name, double _cache_tim
 	time_last_input = aa_tm_timespec2sec(aa_tm_now());
 	last_spacenav_input = Eigen::VectorXd::Zero(6);
 	buttons[0] = buttons[1] = 0;
-}
+}*/
 
 
 /* ******************************************************************************************** */
-SpaceNav::~SpaceNav() {
+/*SpaceNav::~SpaceNav() {
 	somatic_d_channel_close(this->daemon_cx, &this->spacenav_chan);
-}
+}*/
 
 /* ******************************************************************************************** */
 /// Get a raw reading off the spacenav if possible. If not, return
 /// failure and don't fill in spacenav_raw_input.
-bool SpaceNav::getSpaceNavRaw(Eigen::VectorXd& spacenav_raw_input) {
+/*bool SpaceNav::getSpaceNavRaw(Eigen::VectorXd& spacenav_raw_input) {
 	// Get joystick data
 	int r = 0;
 	spacenav_raw_input = Eigen::VectorXd::Zero(6);
@@ -254,10 +254,10 @@ bool SpaceNav::getSpaceNavRaw(Eigen::VectorXd& spacenav_raw_input) {
 	// Free the liberty message
 	somatic__joystick__free_unpacked(js_msg, &protobuf_c_system_allocator);
 	return true;
-}
+}*/
 
 /* ******************************************************************************************** */
-Eigen::VectorXd SpaceNav::updateSpaceNav() {
+/*Eigen::VectorXd SpaceNav::updateSpaceNav() {
 	// grab the current time
 	double time_now = aa_tm_timespec2sec(aa_tm_now());
 
@@ -281,6 +281,6 @@ Eigen::VectorXd SpaceNav::updateSpaceNav() {
 	// if our cached value is too old, then the system has become
 	// unsafe and we instead return a zero input
 	return Eigen::VectorXd::Zero(6);
-}
+}*/
 
 };	// end of namespace

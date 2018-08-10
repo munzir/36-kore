@@ -78,7 +78,7 @@ public:
 };
 
 /* ******************************************************************************************** */
-class SpaceNav {
+/*class SpaceNav {
 public:
 
 	/// The constructor. Opens ach channel and initializes the cache.
@@ -105,7 +105,7 @@ public:
 	double time_last_input; ///< When we last got a good reading
 	somatic_d_t* daemon_cx; ///< Holds on to the daemon context so we can do ach channel things
 	ach_channel_t spacenav_chan; 					///< The actual ach channel
-};
+};*/
 
 /* ******************************************************************************************** */
 // Helper functions to update other sensors (i.e. imu, kinect..)
