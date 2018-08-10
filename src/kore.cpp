@@ -345,7 +345,7 @@ void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors,
 }
 
 /* ******************************************************************************************** */
-void Hardware::printState () {
+/*void Hardware::printState () {
 	VectorXd s = robot->getPose();
 	printf("imu: %.3lf, waist: %.3lf, torso: %.3lf\n", s(imuWaist_ids[0]), s(imuWaist_ids[1]), s(9));
 	printf("left arm: (");
@@ -353,10 +353,10 @@ void Hardware::printState () {
 	printf("\b)\nright arm: (");
 	for(size_t i = 0; i < 7; i++) printf(" %.3lf,", s(right_arm_ids[i]));
 	printf("\b)\n");
-}
+}*/
 
 /* ******************************************************************************************** */
-void Hardware::printStateCurses(int row, int col) {
+/*void Hardware::printStateCurses(int row, int col) {
 	VectorXd s = robot->getPose();
 	mvprintw(row, col, "Robot hardware state:");
 	mvprintw(row+1, col+1, "imu: %.3lf", s(imuWaist_ids[0]));
@@ -403,6 +403,6 @@ void Hardware::printStateCurses(int row, int col) {
 		mvprintw(row+7, col+14+(i*12), "%.8lf", s(right_arm_ids[i]));
 		if (dist < .25) attroff(COLOR_PAIR(COLOR_RED_BACKGROUND));
 	}
-}
+}*/
 
 };	// end of namespace

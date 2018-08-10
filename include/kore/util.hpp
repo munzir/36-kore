@@ -44,11 +44,11 @@
 
 #include <iomanip>
 
-#include <dynamics/SkeletonDynamics.h>
-#include <kinematics/BodyNode.h>
-#include <kinematics/Dof.h>
-#include <math/UtilsRotation.h>
-#include <simulation/World.h>
+//#include <dynamics/SkeletonDynamics.h>
+//#include <kinematics/BodyNode.h>
+//#include <kinematics/Dof.h>
+//#include <math/UtilsRotation.h>
+//#include <simulation/World.h>
 
 #include <Eigen/Dense>
 
@@ -58,10 +58,10 @@ namespace Krang {
 // Useful math operations
 
 /// Converts a 4x4 homogeneous transform to a 6D euler with the given order for RPY.
-Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _order);
+/*Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _order);
 
 /// Converts a 6D euler to a 4x4 homogeneous transform with the given order for RPY.
-Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _order);
+Eigen::MatrixXd eulerToTransform(const Eigen::VectorXd &V, math::RotationOrder _order);*/
 
 /* ******************************************************************************************** */
 /// The indicator for the left or right side	
