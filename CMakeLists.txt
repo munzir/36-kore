@@ -14,14 +14,20 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 # Include Dart, Grip, and Eigen
+find_package(DART 6.3.0 REQUIRED COMPONENTS utils-urdf gui CONFIG)
+#add_compile_options(-std=c++11)
 #include(cmake/simulation.cmake)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen3 REQUIRED)
 include_directories(EIGEN3_INCLUDE_DIR)
 include_directories(/usr/include/eigen3)
+include_directories(${DART_INCLUDE_DIRS})
+
+#target_link_libraries(${DART_LIBRARIES})
 
 # link to various libraries that we need
-link_libraries(protobuf-c amino ach somatic filter stdc++ ncurses)
+link_libraries(protobuf-c amino lapack ach somatic filter stdc++ ncurses ${DART_LIBRARIES})
+#link_libraries(protobuf-c amino lapack ach somatic filter stdc++ ncurses)
 
 # set our include directories
 include_directories(include)

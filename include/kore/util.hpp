@@ -44,6 +44,7 @@
 
 #include <iomanip>
 
+#include <dart/dart.hpp>
 //#include <dynamics/SkeletonDynamics.h>
 //#include <kinematics/BodyNode.h>
 //#include <kinematics/Dof.h>

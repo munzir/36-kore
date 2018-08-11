@@ -58,7 +58,7 @@ public:
 	};
 
 	/// Initializes the interfaces to the motor groups based on the given hardware mode
-	Hardware (Mode mode, somatic_d_t* daemon_cx, dynamics::SkeletonDynamics* robot); 
+	Hardware (Mode mode, somatic_d_t* daemon_cx, dart::dynamics::SkeletonPtr robot); 
 
 	/// The destructor which sends halt messages to all Schunk modules and 0-velocities to wheels
 	~Hardware ();
@@ -105,7 +105,7 @@ public:
 
 	Mode mode;														///< Indicates which motor groups are used
 	somatic_d_t* daemon_cx;								///< The daemon context for the running program
-	dynamics::SkeletonDynamics* robot;		///< The kinematics of the robot
+	dart::dynamics::SkeletonPtr robot;		///< The kinematics of the robot
 
 public:
 	// The interfaces to the sensors on Krang
@@ -114,7 +114,7 @@ public:
 	double imu, imuSpeed;									///< Latest imu readings (or the mean over a window)
 	filter_kalman_t* kfImu; 							///< The kalman filter for the imu readings
 
-	FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
+	// FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
 
 public:
 	// The interfaces to the motor groups on Krang
