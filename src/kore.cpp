@@ -42,7 +42,7 @@ using namespace Eigen;
 namespace Krang {
 	
 /* ******************************************************************************************** */
-Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynamics* robot_) {
+Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::SkeletonPtr robot_) {
 
 	// Set the local variables
 	daemon_cx = daemon_cx_;
@@ -51,7 +51,7 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynam
 
 	// Initialize all the 'optional' pointers to nulls and sanity check the inputs
 	amc = torso = NULL;
-	fts[LEFT] = fts[RIGHT] = NULL;
+//	fts[LEFT] = fts[RIGHT] = NULL;
 	arms[LEFT] = arms[RIGHT] = NULL;
 	grippers[LEFT] = grippers[RIGHT] = NULL;
 	waistCmdChan = NULL;
@@ -98,13 +98,13 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dynamics::SkeletonDynam
 	updateKinematics();
 
 	// Determine the type of grippers from input mode
-	FT::GripperType ft_grippers;
-	if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
-	if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
+//	FT::GripperType ft_grippers;
+//	if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
+//	if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
 
 	// After initializing the rest of the robot (need kinematics), we can initialize f/t sensors. 
-	if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot, LEFT);
-	if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx, robot, RIGHT);
+//	if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot, LEFT);
+//	if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx, robot, RIGHT);
 }
 
 /* ******************************************************************************************** */
@@ -116,8 +116,8 @@ Hardware::~Hardware () {
 	filter_kalman_destroy(kfImu);	
 
 	// Destroy the ft sensors
-	if(fts[LEFT] != NULL) delete fts[LEFT];
-	if(fts[RIGHT] != NULL) delete fts[RIGHT];
+//	if(fts[LEFT] != NULL) delete fts[LEFT];
+//	if(fts[RIGHT] != NULL) delete fts[RIGHT];
 
 	// Send zero velocity to amc and clean it up
 	double zeros2[2] = {0.0, 0.0}, zeros7[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; 
@@ -220,8 +220,8 @@ void Hardware::updateSensors (double dt) {
 	updateKinematics();
 
 	// Update the f/t readings
-	if(mode & MODE_LARM) fts[LEFT]->updateExternal();
-	if(mode & MODE_RARM) fts[RIGHT]->updateExternal();
+//	if(mode & MODE_LARM) fts[LEFT]->updateExternal();
+//	if(mode & MODE_RARM) fts[RIGHT]->updateExternal();
 }
 
 /* ******************************************************************************************** */
@@ -253,7 +253,7 @@ void Hardware::updateKinematics () {
 		Vector7d rarm_vals = eig7(arms[RIGHT]->pos);
 		for(int i = 0; i < rarm_vals.size(); i++) all_vals[imuWaist_ids.size() + left_arm_ids.size() + i] = rarm_vals[i];
 	}
-	robot->setConfig(all_ids, all_vals);
+	//robot->setConfig(all_ids, all_vals);
 }
 
 /* ******************************************************************************************** */

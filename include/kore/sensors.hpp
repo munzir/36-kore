@@ -38,10 +38,12 @@
 
 namespace Krang {
 
+#ifndef IMU_CHANNEL_SIZE
 static const size_t IMU_CHANNEL_SIZE = 54;
+#endif
 
 /* ******************************************************************************************** */
-class FT {
+/*class FT {
 public:
 
 	/// Indicates which type of gripper is after the f/t sensor which affects the mass and com
@@ -49,7 +51,7 @@ public:
 
 	/// The constructor. The type of the gripper after f/t affects the readings, robot + side are
 	/// used to estimate the frame of the f/t in the robot base frame.
-	FT (GripperType type, somatic_d_t* daemon_cx, dynamics::SkeletonDynamics* robot, Side side);
+	FT (GripperType type, somatic_d_t* daemon_cx, dart::dynamics::SkeletonPtr robot, Side side);
 	bool getRaw(Vector6d& raw);  					///< Gets the latest raw reading from the f/t channel
 	void updateExternal();								///< Updates estimate for the external input 
 
@@ -72,10 +74,10 @@ public:
 	// Variables to determine the kinematics that affect the compensation and the data channel
 
 	Side side;															///< Indices the left or the right f/t sensor
-	dynamics::SkeletonDynamics* robot;			///< The kinematics of the robot
+	dart::dynamics::SkeletonPtr robot;			///< The kinematics of the robot
 	somatic_d_t* daemon_cx;
 	ach_channel_t* chan;										///< The data channel
-};
+};*/
 
 /* ******************************************************************************************** */
 /*class SpaceNav {

@@ -41,7 +41,7 @@ using namespace Eigen;
 namespace Krang {
 
 /* ******************************************************************************************** */
-FT::FT (GripperType type, somatic_d_t* daemon_cx_, dynamics::SkeletonDynamics* r_, Side side_) {
+/*FT::FT (GripperType type, somatic_d_t* daemon_cx_, dart::dynamics::SkeletonPtr r_, Side side_) {
 
 	// Sanity check the input and set the local bariables
 	assert((r_ != NULL) && "Can not initialize the f/t sensors without robot kinematics");
@@ -81,10 +81,10 @@ FT::FT (GripperType type, somatic_d_t* daemon_cx_, dynamics::SkeletonDynamics* r
 	// Compute the offset between what the reading should be and what it is assuming no external
 	// forces
 	error(data, offset, false);	
-}
+}*/
 
 /* ******************************************************************************************** */
-void FT::error(const Vector6d& reading, Vector6d& error, bool inWorldFrame) {
+/*void FT::error(const Vector6d& reading, Vector6d& error, bool inWorldFrame) {
 
 	// Get the point transform wrench due to moving the affected position from com to sensor origin
 	// The transform is an identity with the bottom left a skew symmetric of the point translation
@@ -112,10 +112,10 @@ void FT::error(const Vector6d& reading, Vector6d& error, bool inWorldFrame) {
 	// Compute the difference between the actual and expected f/t values
 	error = expectedFT - reading;
 	if(inWorldFrame) error = pSsensor_world.transpose() * error;	
-}
+}*/
 
 /* ******************************************************************************************** */
-void FT::updateExternal () {
+/*void FT::updateExternal () {
 
 	// Attempt to get the current reading. If failed, return the last value
 	Vector6d raw;
@@ -127,10 +127,10 @@ void FT::updateExternal () {
 	// Otherwise, compute the external reading as the difference between expected reading due to
 	// gripper weight and the current ideal reading, in the world frame
 	error(ideal, lastExternal, true);
-}
+}*/
 
 /* ******************************************************************************************** */
-bool FT::getRaw (Vector6d& raw) {
+/*bool FT::getRaw (Vector6d& raw) {
 
 	// Check if there is anything to read
 	// TODO Remove aa_tm_future
@@ -154,7 +154,7 @@ bool FT::getRaw (Vector6d& raw) {
 	for(size_t i = 0; i < 3; i++) raw(i) = ftMessage->force->data[i]; 
 	for(size_t i = 0; i < 3; i++) raw(i+3) = ftMessage->moment->data[i]; 
 	return true;
-}
+}*/
 
 /* ******************************************************************************************** */
 void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt, 
@@ -169,7 +169,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	clock_gettime(CLOCK_MONOTONIC, &currTime);
 	struct timespec abstime = aa_tm_add(aa_tm_sec2timespec(1.0/30.0), currTime);
 	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector, 
-																											&protobuf_c_system_allocator, IMU_CHANNEL_SIZE, imuChan, &abstime);
+																											NULL /*&protobuf_c_system_allocator*/, IMU_CHANNEL_SIZE, imuChan, &abstime);
 	if(imu_msg == NULL) return;
 
 	// Get the imu position and velocity value from the readings (note imu mounted at 45 deg).
@@ -179,7 +179,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	_imuSpeed = imu_msg->data[3] * sin(mountAngle) + imu_msg->data[4] * cos(mountAngle);
 
 	// Free the unpacked message
-	somatic__vector__free_unpacked( imu_msg, &protobuf_c_system_allocator );
+	somatic__vector__free_unpacked( imu_msg, NULL);//&protobuf_c_system_allocator );
 
 	// ======================================================================
 	// Filter the readings
