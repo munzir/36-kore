@@ -227,33 +227,31 @@ void Hardware::updateSensors (double dt) {
 /* ******************************************************************************************** */
 void Hardware::updateKinematics () {
 
-	// unify the id vectors so we only have to make a single call
-	// TODO: move this to an outside variable and initialize in the
-	// the init function
-	std::vector<int> all_ids;
-	all_ids.insert(all_ids.end(), imuWaist_ids.begin(), imuWaist_ids.end());
-	all_ids.insert(all_ids.end(), left_arm_ids.begin(), left_arm_ids.end());
-	all_ids.insert(all_ids.end(), right_arm_ids.begin(), right_arm_ids.end());
+	// TODO: heading, x, y and wheel-rotations need to be properly stored
+	double heading, qBase, qLWheel, qRWheel, qWaist, qTorso, qKinect;
+  Eigen::Vector3d xyz;
+  Eigen::Matrix<double, 7, 1> qLeftArm;
+  Eigen::Matrix<double, 7, 1> qRightArm;
+  Eigen::Transform<double, 3, Eigen::Affine> baseTf;
+  Eigen::AngleAxisd aa;
+  Eigen::Matrix<double, 24, 1> q;
 
-	// a spot to unify the config vectors for same
-	Eigen::VectorXd all_vals(all_ids.size());
+	heading = 0.0;
+	qBase = imu;
+	xyz << 0.0, 0.0, 0.267;
+	qLWheel = 0.0;
+	qRWheel = 0.0;
+	qWaist = (waist->pos[0] - waist->pos[1]) / 2.0;
+	qTorso = torso->pos[0];
+	qLeftArm = eig7(arms[LEFT]->pos);
+	qRightArm = eig7(arms[RIGHT]->pos);
 
-	// Update imu and waist values
-	assert((mode & MODE_WAIST) && "This code assumes that the robot at least has the waist modules");
-	double waist_val = (waist->pos[0] - waist->pos[1]) / 2.0;
-	Vector2d imuWaist_vals (-imu + M_PI_2, waist_val);
-	for(int i = 0; i < imuWaist_vals.size(); i++) all_vals[i] = imuWaist_vals[i];
+	baseTf = Eigen::Transform<double, 3, Eigen::Affine>::Identity();
+  baseTf.prerotate(Eigen::AngleAxisd(-qBase,Eigen::Vector3d::UnitX())).prerotate(Eigen::AngleAxisd(-M_PI/2+heading,Eigen::Vector3d::UnitY())).prerotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d::UnitX()));
+  aa = Eigen::AngleAxisd(baseTf.rotation());
 
-	// Update the arms state
-	if(mode & MODE_LARM) {
-		Vector7d larm_vals = eig7(arms[LEFT]->pos);
-		for(int i = 0; i < larm_vals.size(); i++) all_vals[imuWaist_ids.size() + i] = larm_vals[i];
-	}
-	if(mode & MODE_RARM) {
-		Vector7d rarm_vals = eig7(arms[RIGHT]->pos);
-		for(int i = 0; i < rarm_vals.size(); i++) all_vals[imuWaist_ids.size() + left_arm_ids.size() + i] = rarm_vals[i];
-	}
-	//robot->setConfig(all_ids, all_vals);
+	q << aa.angle()*aa.axis(), xyz, qLWheel, qRWheel, qWaist, qTorso, qLeftArm, qRightArm; 
+  robot->setPositions(q);
 }
 
 /* ******************************************************************************************** */

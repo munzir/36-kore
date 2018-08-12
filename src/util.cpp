@@ -44,22 +44,22 @@ namespace Krang {
 /* ******************************************************************************************** */
 // Setup the indices for the motor groups
 
-int base_ids_a [5] = {0, 1, 3, 5, 8};
-int left_arm_ids_a [7] = {11, 14, 16, 18, 20, 22, 24}; 
-int right_arm_ids_a [7] = {12, 15, 17, 19, 21, 23, 25}; 
-int imuWaist_ids_a [2] = {5, 8};
-int kinect_ids_a [2] = {10, 13};
-vector <int> left_arm_ids (left_arm_ids_a, left_arm_ids_a + 7);						
-vector <int> right_arm_ids (right_arm_ids_a, right_arm_ids_a + 7);	
-vector <int> imuWaist_ids (imuWaist_ids_a, imuWaist_ids_a + 2);		
-vector <int> kinect_ids (kinect_ids_a, kinect_ids_a + 2);		
-vector <int> base_ids (base_ids_a, base_ids_a + 5);		
+//int base_ids_a [5] = {0, 1, 3, 5, 8};
+//int left_arm_ids_a [7] = {11, 14, 16, 18, 20, 22, 24}; 
+//int right_arm_ids_a [7] = {12, 15, 17, 19, 21, 23, 25}; 
+//int imuWaist_ids_a [2] = {5, 8};
+//int kinect_ids_a [2] = {10, 13};
+//vector <int> left_arm_ids (left_arm_ids_a, left_arm_ids_a + 7);						
+//vector <int> right_arm_ids (right_arm_ids_a, right_arm_ids_a + 7);	
+//vector <int> imuWaist_ids (imuWaist_ids_a, imuWaist_ids_a + 2);		
+//vector <int> kinect_ids (kinect_ids_a, kinect_ids_a + 2);		
+//vector <int> base_ids (base_ids_a, base_ids_a + 5);		
 
 /* ******************************************************************************************** */
 // set up the indices for dart's root dofs
 
-int dart_root_dof_ids_a[] =  {0,1,2,5,4,3};
-std::vector<int> dart_root_dof_ids(dart_root_dof_ids_a, dart_root_dof_ids_a + 6);
+//int dart_root_dof_ids_a[] =  {0,1,2,5,4,3};
+//std::vector<int> dart_root_dof_ids(dart_root_dof_ids_a, dart_root_dof_ids_a + 6);
 
 /* ******************************************************************************************** */
 /*Eigen::VectorXd transformToEuler(const Eigen::MatrixXd &T, math::RotationOrder _order) {
