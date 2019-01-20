@@ -29,7 +29,7 @@
  * @file kore.cpp
  * @author Can Erdogan
  * @date July 24, 2013
- * @brief The main source file for the Krang support file which has the definition for the 
+ * @brief The main source file for the Krang support file which has the definition for the
  * Hardware struct constructor.
  */
 
@@ -40,7 +40,7 @@
 using namespace Eigen;
 
 namespace Krang {
-	
+
 /* ******************************************************************************************** */
 Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::SkeletonPtr robot_) {
 
@@ -63,28 +63,28 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::Skeleto
 
 	// Define the pos/vel limits for the motor groups
 	VectorXd lim7 = VectorXd::Ones(7) * 1024.1;
-	VectorXd lim4 = VectorXd::Ones(4) * 1024.1; 
-	VectorXd lim2 = VectorXd::Ones(2) * 1024.1; 
+	VectorXd lim4 = VectorXd::Ones(4) * 1024.1;
+	VectorXd lim2 = VectorXd::Ones(2) * 1024.1;
 	VectorXd lim1 = VectorXd::Ones(1) * 1024.1;
 
 	// Initialize the Schunk (+ Robotiq) motor groups
-	if(mode & MODE_LARM) 
-		initMotorGroup(daemon_cx, arms[LEFT], "llwa-cmd", "llwa-state", -lim7, lim7, -lim7, lim7);	
-	if(mode & MODE_RARM) 
-		initMotorGroup(daemon_cx, arms[RIGHT], "rlwa-cmd", "rlwa-state", -lim7, lim7, -lim7, lim7);	
-	if(mode & MODE_TORSO) 
-		initMotorGroup(daemon_cx, torso, "torso-cmd", "torso-state", -lim1, lim1, -lim1, lim1);	
+	if(mode & MODE_LARM)
+		initMotorGroup(daemon_cx, arms[LEFT], "llwa-cmd", "llwa-state", -lim7, lim7, -lim7, lim7);
+	if(mode & MODE_RARM)
+		initMotorGroup(daemon_cx, arms[RIGHT], "rlwa-cmd", "rlwa-state", -lim7, lim7, -lim7, lim7);
+	if(mode & MODE_TORSO)
+		initMotorGroup(daemon_cx, torso, "torso-cmd", "torso-state", -lim1, lim1, -lim1, lim1);
 	if((mode & MODE_LARM) && (mode & MODE_GRIPPERS_SCH))
-		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim1, lim1, 
+		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim1, lim1,
 			-lim1, lim1);
 	if((mode & MODE_LARM) && (mode & MODE_GRIPPERS))
-		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim4, lim4, 
+		initMotorGroup(daemon_cx, grippers[LEFT], "lgripper-cmd", "lgripper-state", -lim4, lim4,
 			-lim4, lim4);
 	if((mode & MODE_RARM) && (mode & MODE_GRIPPERS_SCH))
-		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim1, lim1, 
+		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim1, lim1,
 			-lim1, lim1);
 	if((mode & MODE_RARM) && (mode & MODE_GRIPPERS))
-		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim4, lim4, 
+		initMotorGroup(daemon_cx, grippers[RIGHT], "rgripper-cmd", "rgripper-state", -lim4, lim4,
 			-lim4, lim4);
 
 	// Initialize the wheel motor groups which depend on imu readings to get absolute wheel positions
@@ -102,7 +102,7 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::Skeleto
 //	if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
 //	if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
 
-	// After initializing the rest of the robot (need kinematics), we can initialize f/t sensors. 
+	// After initializing the rest of the robot (need kinematics), we can initialize f/t sensors.
 //	if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot, LEFT);
 //	if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx, robot, RIGHT);
 }
@@ -113,14 +113,14 @@ Hardware::~Hardware () {
 	// Close imu channel and the filter
 	somatic_d_channel_close(daemon_cx, imu_chan);
 	delete imu_chan;
-	filter_kalman_destroy(kfImu);	
+	filter_kalman_destroy(kfImu);
 
 	// Destroy the ft sensors
 //	if(fts[LEFT] != NULL) delete fts[LEFT];
 //	if(fts[RIGHT] != NULL) delete fts[RIGHT];
 
 	// Send zero velocity to amc and clean it up
-	double zeros2[2] = {0.0, 0.0}, zeros7[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}; 
+	double zeros2[2] = {0.0, 0.0}, zeros7[7] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	if(amc != NULL) {
 		somatic_motor_cmd(daemon_cx, amc, SOMATIC__MOTOR_PARAM__MOTOR_CURRENT, zeros2, 2, NULL);
 		somatic_motor_destroy(daemon_cx, amc);
@@ -141,19 +141,19 @@ Hardware::~Hardware () {
 	}
 
 	// Destroy the gripper motors
-	if(grippers[LEFT] != NULL) { 
+	if(grippers[LEFT] != NULL) {
 		somatic_motor_halt(daemon_cx, grippers[LEFT]);
 		somatic_motor_destroy(daemon_cx, grippers[LEFT]);
 		delete grippers[LEFT];
 	}
-	if(grippers[RIGHT] != NULL) { 
+	if(grippers[RIGHT] != NULL) {
 		somatic_motor_halt(daemon_cx, grippers[RIGHT]);
 		somatic_motor_destroy(daemon_cx, grippers[RIGHT]);
 		delete grippers[RIGHT];
 	}
 
 	// Stop and destroy	waist motors
-	if(waist != NULL) { 
+	if(waist != NULL) {
 
 		// Create a waist daemon message with the stop mode
 		Somatic__WaistCmd *waistDaemonCmd = somatic_waist_cmd_alloc();
@@ -161,7 +161,7 @@ Hardware::~Hardware () {
 
 		// Send the message
 		int r = SOMATIC_PACK_SEND(waistCmdChan, somatic__waist_cmd, waistDaemonCmd);
-		if(ACH_OK != r) fprintf(stderr, "Couldn't send stop message to waist: %s\n", 
+		if(ACH_OK != r) fprintf(stderr, "Couldn't send stop message to waist: %s\n",
 														ach_result_to_string(static_cast<ach_status_t>(r)));
 
 		// Clean up the memory
@@ -183,7 +183,7 @@ void Hardware::initWaist () {
 	usleep(1e5);
 
 	// Set the min/max values for the pos/vel fields' valid and limit values
-	VectorXd lim2 = VectorXd::Ones(2) * 1024.1; 
+	VectorXd lim2 = VectorXd::Ones(2) * 1024.1;
 	for(int i = 0; i < 2; i++) {
 		waist->pos_valid_min[i] = -lim2[i];
 		waist->pos_limit_min[i] = -lim2[i];
@@ -210,7 +210,7 @@ void Hardware::updateSensors (double dt) {
 	if(mode & MODE_WAIST) somatic_motor_update(daemon_cx, waist);
 
 	// Update the imu
-	getImu(imu_chan, imu, imuSpeed, dt, kfImu); 
+	getImu(imu_chan, imu, imuSpeed, dt, kfImu);
 
 	// Update the arms
 	if(mode & MODE_LARM) somatic_motor_update(daemon_cx, arms[LEFT]);
@@ -226,32 +226,50 @@ void Hardware::updateSensors (double dt) {
 
 /* ******************************************************************************************** */
 void Hardware::updateKinematics () {
-
-	// TODO: heading, x, y and wheel-rotations need to be properly stored
-	double heading, qBase, qLWheel, qRWheel, qWaist, qTorso, qKinect;
+  // TODO: heading, x, y and wheel-rotations need to be properly stored
+  double heading, q_base, q_lwheel, q_rwheel, q_waist, q_torso, q_kinect;
   Eigen::Vector3d xyz;
-  Eigen::Matrix<double, 7, 1> qLeftArm;
-  Eigen::Matrix<double, 7, 1> qRightArm;
-  Eigen::Transform<double, 3, Eigen::Affine> baseTf;
+  Eigen::Matrix<double, 7, 1> q_left_arm;
+  Eigen::Matrix<double, 7, 1> q_right_arm;
+  Eigen::Transform<double, 3, Eigen::Affine> base_tf;
   Eigen::AngleAxisd aa;
   Eigen::Matrix<double, 24, 1> q;
 
-	heading = 0.0;
-	qBase = imu;
-	xyz << 0.0, 0.0, 0.267;
-	qLWheel = 0.0;
-	qRWheel = 0.0;
-	qWaist = (waist->pos[0] - waist->pos[1]) / 2.0;
-	qTorso = torso->pos[0];
-	qLeftArm = eig7(arms[LEFT]->pos);
-	qRightArm = eig7(arms[RIGHT]->pos);
+  heading = 0.0;
+  q_base = imu;
+  xyz << 0.0, 0.0, 0.267;
+  q_lwheel = 0.0;
+  q_rwheel = 0.0;
+  q_waist = (waist->pos[0] - waist->pos[1]) / 2.0;
+  q_torso = torso->pos[0];
+  q_left_arm = eig7(arms[LEFT]->pos);
+  q_right_arm = eig7(arms[RIGHT]->pos);
 
-	baseTf = Eigen::Transform<double, 3, Eigen::Affine>::Identity();
-  baseTf.prerotate(Eigen::AngleAxisd(-qBase,Eigen::Vector3d::UnitX())).prerotate(Eigen::AngleAxisd(-M_PI/2+heading,Eigen::Vector3d::UnitY())).prerotate(Eigen::AngleAxisd(M_PI/2, Eigen::Vector3d::UnitX()));
-  aa = Eigen::AngleAxisd(baseTf.rotation());
+  base_tf = Eigen::Transform<double, 3, Eigen::Affine>::Identity();
+  base_tf.prerotate(Eigen::AngleAxisd(-q_base, Eigen::Vector3d::UnitX()))
+      .prerotate(
+          Eigen::AngleAxisd(-M_PI / 2 + heading, Eigen::Vector3d::UnitY()))
+      .prerotate(Eigen::AngleAxisd(M_PI / 2, Eigen::Vector3d::UnitX()));
+  aa = Eigen::AngleAxisd(base_tf.rotation());
 
-	q << aa.angle()*aa.axis(), xyz, qLWheel, qRWheel, qWaist, qTorso, qLeftArm, qRightArm; 
-  robot->setPositions(q);
+  // q << aa.angle()*aa.axis(), xyz, qLWheel, qRWheel, qWaist, qTorso, qLeftArm,
+  // qRightArm;
+  // robot->setPositions(q);
+  Eigen::Matrix<double, 6, 1> q_base_dart;
+  q_base_dart << aa.angle() * aa.axis(), xyz;
+  robot->setPositions({0, 1, 2, 3, 4, 5}, q_base_dart);
+  robot->getJoint("JLWheel")->setPosition(0, q_lwheel);
+  robot->getJoint("JRWheel")->setPosition(0, q_rwheel);
+  robot->getJoint("JWaist")->setPosition(0, q_waist);
+  robot->getJoint("JTorso")->setPosition(0, q_torso);
+  std::vector<std::string> left_arm_joint_names = {"LJ1", "LJ2", "LJ3", "LJ4",
+                                                   "LJ5", "LJ6", "LJFT"};
+  std::vector<std::string> right_arm_joint_names = {"RJ1", "RJ2", "RJ3", "RJ4",
+                                                    "RJ5", "RJ6", "RJFT"};
+  for (int i = 0; i < 7; i++) {
+    robot->getJoint(left_arm_joint_names[i])->setPosition(0, q_left_arm(i));
+    robot->getJoint(right_arm_joint_names[i])->setPosition(0, q_right_arm(i));
+  }
 }
 
 /* ******************************************************************************************** */
@@ -267,7 +285,7 @@ void Hardware::initImu () {
 	imu = imuSpeed = 0.0;
 	while((num_data < 100) || (aa_tm_timespec2sec(aa_tm_now()) - time_ft_av_start < 1.0)) {
 		double tempImu, tempImuSpeed;
-		getImu(imu_chan, tempImu, tempImuSpeed, 0.0, NULL); 
+		getImu(imu_chan, tempImu, tempImuSpeed, 0.0, NULL);
 		imu += tempImu, imuSpeed += tempImuSpeed;
 		num_data++;
 	}
@@ -293,7 +311,7 @@ void Hardware::initWheels () {
 		amc->pos_valid_min[i] = -1024.1;
 		amc->pos_valid_max[i] = 1024.1;
 		amc->pos_limit_min[i] = -1024.1;
-		amc->pos_limit_max[i] = 1024.1; 
+		amc->pos_limit_max[i] = 1024.1;
 
 		amc->vel_valid_min[i] = -1024.1;
 		amc->vel_valid_max[i] = 1024.1;
@@ -312,8 +330,8 @@ void Hardware::initWheels () {
 }
 
 /* ******************************************************************************************** */
-void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors, 
-		const char* cmd_name, const char* state_name, VectorXd minPos, VectorXd maxPos, 
+void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors,
+		const char* cmd_name, const char* state_name, VectorXd minPos, VectorXd maxPos,
 		VectorXd minVel, VectorXd maxVel) {
 
 	// Initialize the somatic motor struct with the channel names and the number of modules
@@ -360,7 +378,7 @@ void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors,
 	mvprintw(row+1, col+1, "imu: %.3lf", s(imuWaist_ids[0]));
 	mvprintw(row+1, col+16, "waist: %.3lf", s(imuWaist_ids[1]));
 	mvprintw(row+1, col+31, "torso: %.3lf", s(9));
-	
+
 	// display amc currents
 	char bar_buffer[1024];
 	int bar_len = 80;
