@@ -28,3 +28,6 @@ Follow the instructions:
     cd build
     cmake ..
     sudo make install
+
+## Uninstall
+ To remvoe system files created by the installation of this repo.
