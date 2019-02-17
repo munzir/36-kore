@@ -30,4 +30,4 @@ Follow the instructions:
     sudo make install
 
 ## Uninstall
- To remvoe system files created by the installation of this repo.
+ To remove system files created by the installation of this repo.
