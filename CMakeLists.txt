@@ -45,7 +45,7 @@ install(FILES ${headers-kore} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/kore)
 # Create a specific target to install the configuration files for the Krang and object model
 add_custom_target(install-config
 	COMMAND rm -rf /etc/kore
-	COMMAND mkdir /etc/kore 
+	COMMAND mkdir /etc/kore
 	COMMAND cp -r ../etc/model /etc/kore/
 	COMMAND cp -r ../etc/objects /etc/kore/
 	COMMAND cp -r ../etc/scenes /etc/kore/
@@ -55,7 +55,7 @@ add_custom_target(install-config
 set(CPACK_PACKAGE_NAME "kore")
 set(CPACK_SYSTEM_NAME "i386")
 if( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    set(CPACK_SYSTEM_NAME "amd64")    
+    set(CPACK_SYSTEM_NAME "amd64")
 endif()
 set(CPACK_PACKAGE_VERSION_MAJOR 0)
 set(CPACK_PACKAGE_VERSION_MINOR 0)
@@ -70,4 +70,15 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Kore is a library for dealing with core f
 set(CPACK_PACKAGE_VENDOR "Georgia Tech Humanoids Lab")
 
 include(CPack)
+
+# uninstall target
+if(NOT TARGET uninstall)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
+
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
 
