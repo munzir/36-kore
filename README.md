@@ -22,8 +22,6 @@ Follow the instructions:
 
     git clone https://github.gatech.edu/WholeBodyControlAttempt1/36-kore
     cd 36-kore
-    git checkout newdart
-    git pull origin newdart
     mkdir build
     cd build
     cmake ..
