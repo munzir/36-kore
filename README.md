@@ -29,3 +29,5 @@ Follow the instructions:
 
 ## Uninstall
  To remove system files created by the installation of this repo.
+
+    sudo make uninstall
