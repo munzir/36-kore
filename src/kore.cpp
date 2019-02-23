@@ -113,7 +113,7 @@ Hardware::~Hardware () {
 	// Close imu channel and the filter
 	somatic_d_channel_close(daemon_cx, imu_chan);
 	delete imu_chan;
-	filter_kalman_destroy(kfImu);
+	if (kfImu) filter_kalman_destroy(kfImu);
 
 	// Destroy the ft sensors
 //	if(fts[LEFT] != NULL) delete fts[LEFT];
