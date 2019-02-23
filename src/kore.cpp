@@ -42,7 +42,7 @@ using namespace Eigen;
 namespace Krang {
 
 /* ******************************************************************************************** */
-Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::SkeletonPtr robot_) {
+Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::SkeletonPtr robot_, bool filter_imu) {
 
 	// Set the local variables
 	daemon_cx = daemon_cx_;
@@ -59,7 +59,7 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::Skeleto
 	assert((robot != NULL) && "Can not give null dart kinematics to hardware constructor");
 
 	// Initialize the imu sensor and average the first 500 values
-	initImu();
+	initImu(filter_imu);
 
 	// Define the pos/vel limits for the motor groups
 	VectorXd lim7 = VectorXd::Ones(7) * 1024.1;
@@ -273,7 +273,7 @@ void Hardware::updateKinematics () {
 }
 
 /* ******************************************************************************************** */
-void Hardware::initImu () {
+void Hardware::initImu (bool filter_imu) {
 
 	// Initialize the ach channel
 	imu_chan = new ach_channel_t();
@@ -292,11 +292,15 @@ void Hardware::initImu () {
 	imu /= (double)num_data, imuSpeed /= (double)num_data;
 
 	// Create the kalman filter
-	kfImu = new filter_kalman_t;
-	filter_kalman_init(kfImu, 2, 0, 2);
-	kfImu->C[0] = kfImu->C[3] = 1.0;
-	kfImu->Q[0] = kfImu->Q[3] = 1e-3;
-	kfImu->x[0] = imu, kfImu->x[1] = imuSpeed;
+  if (filter_imu) {
+    kfImu = new filter_kalman_t;
+    filter_kalman_init(kfImu, 2, 0, 2);
+    kfImu->C[0] = kfImu->C[3] = 1.0;
+    kfImu->Q[0] = kfImu->Q[3] = 1e-3;
+    kfImu->x[0] = imu, kfImu->x[1] = imuSpeed;
+  } else {
+    kfImu = NULL;
+  }
 }
 
 /* ******************************************************************************************** */
