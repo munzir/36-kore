@@ -26,6 +26,7 @@ Follow the instructions:
     cd build
     cmake ..
     sudo make install
+    sudo ldconfig
 
 ## Uninstall
  To remove system files created by the installation of this repo.
