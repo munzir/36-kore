@@ -223,6 +223,17 @@ void Hardware::updateSensors (double dt) {
 //	if(mode & MODE_LARM) fts[LEFT]->updateExternal();
 //	if(mode & MODE_RARM) fts[RIGHT]->updateExternal();
 }
+/* ******************************************************************************************** */
+Eigen::Vector3d GetBodyCom(dart::dynamics::SkeletonPtr robot) {
+  dart::dynamics::BodyNodePtr lwheel = robot->getBodyNode("LWheel");
+  dart::dynamics::BodyNodePtr rwheel = robot->getBodyNode("RWheel");
+  double wheel_mass = lwheel->getMass();
+  double full_mass = robot->getMass();
+  return (full_mass * robot->getCOM() - wheel_mass * lwheel->getCOM() -
+          wheel_mass * rwheel->getCOM()) /
+         (full_mass - 2 * wheel_mass);
+}
+
 
 /* ******************************************************************************************** */
 void Hardware::updateKinematics () {
@@ -358,8 +369,8 @@ void Hardware::initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors,
 	}
 
 	// Update and reset them
-	somatic_motor_reset(daemon_cx, motors);
-	usleep(1e5);
+//	somatic_motor_reset(daemon_cx, motors);
+//	usleep(1e5);
 	somatic_motor_update(daemon_cx, motors);
 	usleep(1e5);
 }
