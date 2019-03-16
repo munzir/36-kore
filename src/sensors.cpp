@@ -80,7 +80,7 @@ namespace Krang {
 
 	// Compute the offset between what the reading should be and what it is assuming no external
 	// forces
-	error(data, offset, false);	
+	error(data, offset, false);
 }*/
 
 /* ******************************************************************************************** */
@@ -88,16 +88,16 @@ namespace Krang {
 
 	// Get the point transform wrench due to moving the affected position from com to sensor origin
 	// The transform is an identity with the bottom left a skew symmetric of the point translation
-	Matrix6d pTcom_sensor = MatrixXd::Identity(6,6); 
-	pTcom_sensor.bottomLeftCorner<3,3>() << 0.0, -gripperCoM(2), gripperCoM(1), gripperCoM(2), 
+	Matrix6d pTcom_sensor = MatrixXd::Identity(6,6);
+	pTcom_sensor.bottomLeftCorner<3,3>() << 0.0, -gripperCoM(2), gripperCoM(1), gripperCoM(2),
 		0.0, -gripperCoM(0), -gripperCoM(1), gripperCoM(0), 0.0;
 
-	// Get the rotation between the world frame and the sensor frame. 
+	// Get the rotation between the world frame and the sensor frame.
 	const char* nodeName = (side == LEFT) ? "lGripper" : "rGripper";
 	Matrix3d R = robot->getNode(nodeName)->getWorldTransform().topLeftCorner<3,3>().transpose();
 
 	// Create the wrench with computed rotation to change the frame from the world to the sensor
-	Matrix6d pSsensor_world = MatrixXd::Identity(6,6); 
+	Matrix6d pSsensor_world = MatrixXd::Identity(6,6);
 	pSsensor_world.topLeftCorner<3,3>() = R;
 	pSsensor_world.bottomRightCorner<3,3>() = R;
 
@@ -105,13 +105,13 @@ namespace Krang {
 	Vector6d weightVector_in_world;
 	weightVector_in_world << 0.0, 0.0, -gripperMass * 9.81, 0.0, 0.0, 0.0;
 
-	// Compute what the force and torque should be without any external values by multiplying the 
-	// position and rotation transforms with the expected effect of the gravity 
+	// Compute what the force and torque should be without any external values by multiplying the
+	// position and rotation transforms with the expected effect of the gravity
 	Vector6d expectedFT = pTcom_sensor * pSsensor_world * weightVector_in_world;
 
 	// Compute the difference between the actual and expected f/t values
 	error = expectedFT - reading;
-	if(inWorldFrame) error = pSsensor_world.transpose() * error;	
+	if(inWorldFrame) error = pSsensor_world.transpose() * error;
 }*/
 
 /* ******************************************************************************************** */
@@ -137,7 +137,7 @@ namespace Krang {
 	int result;
 	size_t numBytes = 0;
 	struct timespec abstimeout = aa_tm_future(aa_tm_sec2timespec(.001));
-	uint8_t* buffer = (uint8_t*) somatic_d_get(daemon_cx, chan, &numBytes, &abstimeout, ACH_O_LAST, 
+	uint8_t* buffer = (uint8_t*) somatic_d_get(daemon_cx, chan, &numBytes, &abstimeout, ACH_O_LAST,
 																						 &result);
 
 	// Return if there is nothing to read
@@ -149,15 +149,15 @@ namespace Krang {
 	if(msg->meta->type != SOMATIC__MSG_TYPE__FORCE_MOMENT) return false;
 
 	// Read the force-torque message and write it into the vector
-	Somatic__ForceMoment* ftMessage = somatic__force_moment__unpack(&(daemon_cx->pballoc), 
+	Somatic__ForceMoment* ftMessage = somatic__force_moment__unpack(&(daemon_cx->pballoc),
 																																	numBytes, buffer);
-	for(size_t i = 0; i < 3; i++) raw(i) = ftMessage->force->data[i]; 
-	for(size_t i = 0; i < 3; i++) raw(i+3) = ftMessage->moment->data[i]; 
+	for(size_t i = 0; i < 3; i++) raw(i) = ftMessage->force->data[i];
+	for(size_t i = 0; i < 3; i++) raw(i+3) = ftMessage->moment->data[i];
 	return true;
 }*/
 
 /* ******************************************************************************************** */
-void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt, 
+void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 						 filter_kalman_t* kf) {
 
 	// ======================================================================
@@ -168,14 +168,14 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	struct timespec currTime;
 	clock_gettime(CLOCK_MONOTONIC, &currTime);
 	struct timespec abstime = aa_tm_add(aa_tm_sec2timespec(1.0/30.0), currTime);
-	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector, 
+	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector,
 																											NULL /*&protobuf_c_system_allocator*/, IMU_CHANNEL_SIZE, imuChan, &abstime);
 	if(imu_msg == NULL) return;
 
 	// Get the imu position and velocity value from the readings (note imu mounted at 45 deg).
 	static const double mountAngle = -.7853981634;
 	double newX = imu_msg->data[0] * cos(mountAngle) - imu_msg->data[1] * sin(mountAngle);
-	_imu = atan2(newX, imu_msg->data[2]); 
+	_imu = atan2(newX, imu_msg->data[2]);
 	_imuSpeed = imu_msg->data[3] * sin(mountAngle) + imu_msg->data[4] * cos(mountAngle);
 
 	// Free the unpacked message
