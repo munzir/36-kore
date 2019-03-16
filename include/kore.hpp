@@ -29,7 +29,7 @@
  * @file kore.hpp
  * @author Can Erdogan, Saul Reynolds-Haertle
  * @date July 24, 2013
- * @brief The main header file for the "K"rang "O"peration "R"untime "E"nvironment 
+ * @brief The main header file for the "K"rang "O"peration "R"untime "E"nvironment
  */
 
 #pragma once
@@ -58,7 +58,7 @@ public:
 	};
 
 	/// Initializes the interfaces to the motor groups based on the given hardware mode
-	Hardware (Mode mode, somatic_d_t* daemon_cx, dart::dynamics::SkeletonPtr robot); 
+	Hardware (Mode mode, somatic_d_t* daemon_cx, dart::dynamics::SkeletonPtr robot, bool filter_imu = true);
 
 	/// The destructor which sends halt messages to all Schunk modules and 0-velocities to wheels
 	~Hardware ();
@@ -73,7 +73,7 @@ public:
 //	void printState();
 //	void printStateCurses(int row, int col);
 
-private:	
+private:
 
 	/// Updates the Dart's kinematics data structures with the latest readings
 	/// This is made private because updateSensors already calls this. A user should not need to call
@@ -84,17 +84,17 @@ public:
 	// Initializes the modules and sensors
 
 	/// Initializes a motor group that is represented with a somatic structure
-	static void initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors, 
-			const char* cmd_name, const char* state_name, Eigen::VectorXd minPos, 
+	static void initMotorGroup (somatic_d_t* daemon_cx, somatic_motor_t*& motors,
+			const char* cmd_name, const char* state_name, Eigen::VectorXd minPos,
 			Eigen::VectorXd maxPos, Eigen::VectorXd minVel, Eigen::VectorXd maxVel);
 
-	/// Initializes the amc wheels while using the average imu to create an offset (for absolute 
+	/// Initializes the amc wheels while using the average imu to create an offset (for absolute
 	/// wheel positions)
 	void initWheels ();
 
-	/// Initializes the imu channel, the filter and averages first 500 readings for correct 
+	/// Initializes the imu channel, the filter and averages first 500 readings for correct
 	/// wheels and f/t offsets
-	void initImu ();
+	void initImu (bool filter_imu = true);
 
 	/// Initializes the waist module group: (1) first creates the somatic interface without a command
 	/// channel to get updates, (2) second, creates a channel to the waist daemon
