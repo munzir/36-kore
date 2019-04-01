@@ -78,7 +78,14 @@ private:
 	/// Updates the Dart's kinematics data structures with the latest readings
 	/// This is made private because updateSensors already calls this. A user should not need to call
 	/// it.
-	void updateKinematics();
+	void updateKinematics(double dt);
+
+  // initial coordinate values for updating position coordinates that are to be
+  // found by integration
+  struct PositionOnGroundPlane {
+    double x;
+    double y;
+  } position_on_ground_plane;
 
 public:
 	// Initializes the modules and sensors
