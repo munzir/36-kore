@@ -35,6 +35,8 @@
 #pragma once
 
 #include "kore/sensors.hpp"
+#include <thread> // std::thread
+#include <mutex>  // std::mutex
 //#include "kore/safety.hpp"
 
 namespace Krang {
@@ -95,6 +97,7 @@ public:
 	/// Initializes the imu channel, the filter and averages first 500 readings for correct
 	/// wheels and f/t offsets
 	void initImu (bool filter_imu = true);
+  void updateImu();
 
 	/// Initializes the waist module group: (1) first creates the somatic interface without a command
 	/// channel to get updates, (2) second, creates a channel to the waist daemon
@@ -113,7 +116,13 @@ public:
 	ach_channel_t* imu_chan;							///< Imu sensor for balance angle
 	double imu, imuSpeed;									///< Latest imu readings (or the mean over a window)
 	filter_kalman_t* kfImu; 							///< The kalman filter for the imu readings
-
+private:
+  std::thread* imu_thread_;
+  bool imu_thread_run_;
+  std::mutex imu_thread_run_mutex_;
+  void getImuForever();
+  double shared_imu_, shared_imu_speed_;
+  std::mutex shared_imu_mutex_;
 	// FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
 
 public:
