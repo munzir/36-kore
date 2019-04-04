@@ -157,7 +157,7 @@ namespace Krang {
 }*/
 
 /* ******************************************************************************************** */
-void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
+bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 						 filter_kalman_t* kf) {
 
 	// ======================================================================
@@ -168,9 +168,9 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	struct timespec currTime;
 	clock_gettime(CLOCK_MONOTONIC, &currTime);
 	struct timespec abstime = aa_tm_add(aa_tm_sec2timespec(1.0/30.0), currTime);
-	Somatic__Vector *imu_msg = SOMATIC_GET_LAST_UNPACK(r, somatic__vector,
-																											NULL /*&protobuf_c_system_allocator*/, IMU_CHANNEL_SIZE, imuChan);
-	if(imu_msg == NULL) return;
+	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector,
+																											NULL /*&protobuf_c_system_allocator*/, IMU_CHANNEL_SIZE, imuChan, &abstime);
+	if(imu_msg == NULL) return false;
 
 	// Get the imu position and velocity value from the readings (note imu mounted at 45 deg).
 	static const double mountAngle = -.7853981634;
@@ -185,7 +185,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	// Filter the readings
 
 	// Skip if a filter is not provided
-	if(kf == NULL) return;
+	if(kf == NULL) return true;
 
 	// Setup the data
 	kf->z[0] = _imu, kf->z[1] = _imuSpeed;
@@ -208,6 +208,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 
 	// Set the values
 	_imu = kf->x[0], _imuSpeed = kf->x[1];
+  return true;
 }
 
 /* ******************************************************************************************** */
