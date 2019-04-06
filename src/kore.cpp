@@ -37,6 +37,9 @@
 #include <unistd.h>
 #include "kore/display.hpp"
 
+#include <somatic.h>     // apparently needed to amino to compile
+#include <amino/time.h>  // aa_tm: _now(), _timespec2sec(), _sub()
+
 using namespace Eigen;
 
 namespace Krang {
@@ -109,6 +112,14 @@ Hardware::Hardware (Mode mode_, somatic_d_t* daemon_cx_, dart::dynamics::Skeleto
 
 /* ******************************************************************************************** */
 Hardware::~Hardware () {
+
+  // Destroy imu thread
+  imu_thread_run_mutex_.lock();
+  imu_thread_run_ = false;
+  imu_thread_run_mutex_.unlock();
+  imu_thread_->join();
+  delete imu_thread_;
+  imu_logger_.close();
 
 	// Close imu channel and the filter
 	somatic_d_channel_close(daemon_cx, imu_chan);
@@ -210,7 +221,7 @@ void Hardware::updateSensors (double dt) {
 	if(mode & MODE_WAIST) somatic_motor_update(daemon_cx, waist);
 
 	// Update the imu
-	getImu(imu_chan, imu, imuSpeed, dt, kfImu);
+  updateImu();
 
 	// Update the arms
 	if(mode & MODE_LARM) somatic_motor_update(daemon_cx, arms[LEFT]);
@@ -291,6 +302,7 @@ void Hardware::initImu (bool filter_imu) {
 	somatic_d_channel_open(daemon_cx, imu_chan, "imu-data", NULL);
 
 	// Average the first second's worth of readings
+  std::cout << "Averaging imu readings for the first few seconds ..." << std::endl;
 	double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
 	int num_data = 0;
 	imu = imuSpeed = 0.0;
@@ -302,6 +314,7 @@ void Hardware::initImu (bool filter_imu) {
 	}
 	imu /= (double)num_data, imuSpeed /= (double)num_data;
 
+
 	// Create the kalman filter
   if (filter_imu) {
     kfImu = new filter_kalman_t;
@@ -312,8 +325,58 @@ void Hardware::initImu (bool filter_imu) {
   } else {
     kfImu = NULL;
   }
+
+  // Launch thread to keep reading imu forever
+  shared_imu_ = imu;
+  shared_imu_speed_ = imuSpeed;
+  imu_logger_.open("/var/tmp/imu/imu_log");
+  imu_thread_run_ = true;
+  imu_thread_ = new std::thread(&Hardware::getImuForever, this);
+}
+/* ******************************************************************************************** */
+void Hardware::updateImu () {
+  shared_imu_mutex_.lock();
+  imu = shared_imu_;
+  imuSpeed = shared_imu_speed_;
+  shared_imu_mutex_.unlock();
 }
 
+/* ******************************************************************************************** */
+void Hardware::getImuForever() {
+  // Initiate t_prev_ and get a reading to let time pass
+  // This is so that dt is sensible the first time it gets passed
+  struct timespec t_prev = aa_tm_now();
+  double temp_imu, temp_imu_speed;
+	getImu(imu_chan, temp_imu, temp_imu_speed, 0.0, NULL);
+
+  bool run = true;
+  double time = 0.0;
+  double unfiltered_data[2];
+  while (run) {
+    // dt
+    struct timespec t_now = aa_tm_now();
+    double dt = (double)aa_tm_timespec2sec(aa_tm_sub(t_now, t_prev));
+    time += dt;
+    t_prev = t_now;
+
+    // try to get imu reading in temp_imu and updated shared variables if
+    // successful
+    if (getImu(imu_chan, temp_imu, temp_imu_speed, dt, kfImu, unfiltered_data)) {
+      shared_imu_mutex_.lock();
+      shared_imu_ = temp_imu;
+      shared_imu_speed_ = temp_imu_speed;
+      imu_logger_ << time << ", "
+                  << unfiltered_data[0] << ", " << unfiltered_data[1] << ","
+                  << shared_imu_ << ", " << shared_imu_speed_ << std::endl;
+      shared_imu_mutex_.unlock();
+    }
+
+    // Check if we need to exit
+    imu_thread_run_mutex_.lock();
+    run = imu_thread_run_;
+    imu_thread_run_mutex_.unlock();
+  }
+}
 /* ******************************************************************************************** */
 void Hardware::initWheels () {
 
