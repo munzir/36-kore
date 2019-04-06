@@ -114,6 +114,6 @@ public:
 
 /// Returns the imu value and filters it if a filter struct is given
 bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
-		filter_kalman_t* kf);
+		filter_kalman_t* kf, double* unfiltered_data = NULL);
 
 };	// end of namespace
