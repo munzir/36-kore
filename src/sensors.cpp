@@ -157,8 +157,8 @@ namespace Krang {
 }*/
 
 /* ******************************************************************************************** */
-void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
-						 filter_kalman_t* kf) {
+bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
+						 filter_kalman_t* kf, double* unfiltered_data) {
 
 	// ======================================================================
 	// Get the readings
@@ -170,13 +170,17 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	struct timespec abstime = aa_tm_add(aa_tm_sec2timespec(1.0/30.0), currTime);
 	Somatic__Vector *imu_msg = SOMATIC_WAIT_LAST_UNPACK(r, somatic__vector,
 																											NULL /*&protobuf_c_system_allocator*/, IMU_CHANNEL_SIZE, imuChan, &abstime);
-	if(imu_msg == NULL) return;
+	if(imu_msg == NULL) return false;
 
 	// Get the imu position and velocity value from the readings (note imu mounted at 45 deg).
 	static const double mountAngle = -.7853981634;
 	double newX = imu_msg->data[0] * cos(mountAngle) - imu_msg->data[1] * sin(mountAngle);
 	_imu = atan2(newX, imu_msg->data[2]);
 	_imuSpeed = imu_msg->data[3] * sin(mountAngle) + imu_msg->data[4] * cos(mountAngle);
+  if (unfiltered_data) {
+    unfiltered_data[0] = _imu;
+    unfiltered_data[1] = _imuSpeed;
+  }
 
 	// Free the unpacked message
 	somatic__vector__free_unpacked( imu_msg, NULL);//&protobuf_c_system_allocator );
@@ -185,7 +189,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	// Filter the readings
 
 	// Skip if a filter is not provided
-	if(kf == NULL) return;
+	if(kf == NULL) return true;
 
 	// Setup the data
 	kf->z[0] = _imu, kf->z[1] = _imuSpeed;
@@ -208,6 +212,7 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 
 	// Set the values
 	_imu = kf->x[0], _imuSpeed = kf->x[1];
+  return true;
 }
 
 /* ******************************************************************************************** */
