@@ -119,6 +119,7 @@ Hardware::~Hardware () {
   imu_thread_run_mutex_.unlock();
   imu_thread_->join();
   delete imu_thread_;
+  imu_logger_.close();
 
 	// Close imu channel and the filter
 	somatic_d_channel_close(daemon_cx, imu_chan);
@@ -301,6 +302,7 @@ void Hardware::initImu (bool filter_imu) {
 	somatic_d_channel_open(daemon_cx, imu_chan, "imu-data", NULL);
 
 	// Average the first second's worth of readings
+  std::cout << "Averaging imu readings for the first few seconds ..." << std::endl;
 	double time_ft_av_start = aa_tm_timespec2sec(aa_tm_now());
 	int num_data = 0;
 	imu = imuSpeed = 0.0;
@@ -327,6 +329,7 @@ void Hardware::initImu (bool filter_imu) {
   // Launch thread to keep reading imu forever
   shared_imu_ = imu;
   shared_imu_speed_ = imuSpeed;
+  imu_logger_.open("/var/tmp/imu/imu_log");
   imu_thread_run_ = true;
   imu_thread_ = new std::thread(&Hardware::getImuForever, this);
 }
@@ -347,18 +350,24 @@ void Hardware::getImuForever() {
 	getImu(imu_chan, temp_imu, temp_imu_speed, 0.0, NULL);
 
   bool run = true;
+  double time = 0.0;
+  double unfiltered_data[2];
   while (run) {
     // dt
     struct timespec t_now = aa_tm_now();
     double dt = (double)aa_tm_timespec2sec(aa_tm_sub(t_now, t_prev));
+    time += dt;
     t_prev = t_now;
 
     // try to get imu reading in temp_imu and updated shared variables if
     // successful
-    if (getImu(imu_chan, temp_imu, temp_imu_speed, dt, kfImu)) {
+    if (getImu(imu_chan, temp_imu, temp_imu_speed, dt, kfImu, unfiltered_data)) {
       shared_imu_mutex_.lock();
       shared_imu_ = temp_imu;
       shared_imu_speed_ = temp_imu_speed;
+      imu_logger_ << time << ", "
+                  << unfiltered_data[0] << ", " << unfiltered_data[1] << ","
+                  << shared_imu_ << ", " << shared_imu_speed_ << std::endl;
       shared_imu_mutex_.unlock();
     }
 

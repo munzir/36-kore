@@ -158,7 +158,7 @@ namespace Krang {
 
 /* ******************************************************************************************** */
 bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
-						 filter_kalman_t* kf) {
+						 filter_kalman_t* kf, double* unfiltered_data) {
 
 	// ======================================================================
 	// Get the readings
@@ -177,6 +177,10 @@ bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	double newX = imu_msg->data[0] * cos(mountAngle) - imu_msg->data[1] * sin(mountAngle);
 	_imu = atan2(newX, imu_msg->data[2]);
 	_imuSpeed = imu_msg->data[3] * sin(mountAngle) + imu_msg->data[4] * cos(mountAngle);
+  if (unfiltered_data) {
+    unfiltered_data[0] = _imu;
+    unfiltered_data[1] = _imuSpeed;
+  }
 
 	// Free the unpacked message
 	somatic__vector__free_unpacked( imu_msg, NULL);//&protobuf_c_system_allocator );

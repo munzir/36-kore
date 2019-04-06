@@ -37,6 +37,7 @@
 #include "kore/sensors.hpp"
 #include <thread> // std::thread
 #include <mutex>  // std::mutex
+#include <iostream> // std::ofstream
 //#include "kore/safety.hpp"
 
 namespace Krang {
@@ -123,6 +124,7 @@ private:
   void getImuForever();
   double shared_imu_, shared_imu_speed_;
   std::mutex shared_imu_mutex_;
+  std::ofstream imu_logger_;
 	// FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
 
 public:
