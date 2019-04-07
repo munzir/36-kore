@@ -113,7 +113,11 @@ Hardware::~Hardware () {
 	// Close imu channel and the filter
 	somatic_d_channel_close(daemon_cx, imu_chan);
 	delete imu_chan;
-	if (kfImu) filter_kalman_destroy(kfImu);
+	if (kfImu) {
+    filter_kalman_destroy(&kfImu[0]);
+    filter_kalman_destroy(&kfImu[1]);
+  }
+  delete kfImu;
 
 	// Destroy the ft sensors
 //	if(fts[LEFT] != NULL) delete fts[LEFT];
@@ -304,11 +308,15 @@ void Hardware::initImu (bool filter_imu) {
 
 	// Create the kalman filter
   if (filter_imu) {
-    kfImu = new filter_kalman_t;
-    filter_kalman_init(kfImu, 2, 0, 2);
-    kfImu->C[0] = kfImu->C[3] = 1.0;
-    kfImu->Q[0] = kfImu->Q[3] = 1e-3;
-    kfImu->x[0] = imu, kfImu->x[1] = imuSpeed;
+    kfImu = new filter_kalman_t[2];
+    filter_kalman_init(&kfImu[0], 1, 0, 1);
+    filter_kalman_init(&kfImu[1], 1, 0, 1);
+    kfImu[0].C[0] = 1.0;
+    kfImu[0].Q[0] = 1e-3;
+    kfImu[1].C[0] = 1.0;
+    kfImu[1].Q[0] = 1e-3;
+    kfImu[0].x[0] = imu;
+    kfImu[1].x[0] = imuSpeed;
   } else {
     kfImu = NULL;
   }
