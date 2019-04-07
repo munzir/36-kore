@@ -188,26 +188,25 @@ void getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	if(kf == NULL) return;
 
 	// Setup the data
-	kf->z[0] = _imu, kf->z[1] = _imuSpeed;
+	kf[0].z[0] = _imu, kf[1].z[0] = _imuSpeed;
 
 	// Setup the time-dependent process matrix
-	kf->A[0] = kf->A[3] = 1.0;
-	kf->A[2] = dt;
+	kf[0].A[0] = kf[1].A[0] = 1.0;
 
 	// Setup the process noise matrix
 	static const double k1 = 2.0;
 	static const double k1b = 5.0;
-	kf->R[0] = (dt*dt*dt*dt) * k1 * (1.0 / 4.0);
-	kf->R[1] = (dt*dt*dt) * k1 * (1.0 / 2.0);
-	kf->R[2] = (dt*dt*dt) * k1 * (1.0 / 2.0);
-	kf->R[3] = (dt*dt) * k1b;
+	kf[0].R[0] = (dt*dt*dt*dt) * k1 * (1.0 / 4.0);
+	kf[1].R[0] = (dt*dt) * k1b;
 
 	// First make a prediction of what the reading should have been, then correct it
-	filter_kalman_predict(kf);
-	filter_kalman_correct(kf);
+	filter_kalman_predict(&kf[0]);
+	filter_kalman_correct(&kf[0]);
+	filter_kalman_predict(&kf[1]);
+	filter_kalman_correct(&kf[1]);
 
 	// Set the values
-	_imu = kf->x[0], _imuSpeed = kf->x[1];
+	_imu = kf[0].x[0], _imuSpeed = kf[1].x[0];
 }
 
 /* ******************************************************************************************** */
