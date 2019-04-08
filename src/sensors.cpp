@@ -200,7 +200,8 @@ bool getImu (ach_channel_t* imuChan, double& _imu, double& _imuSpeed, double dt,
 	// Setup the process noise matrix
 	static const double k1 = 2.0;
 	static const double k1b = 5.0;
-	kf[0].R[0] = (dt*dt*dt*dt) * k1 * (1.0 / 4.0);
+	//kf[0].R[0] = (dt*dt*dt*dt) * k1 * (1.0 / 4.0);
+	kf[0].R[0] = (dt*dt) * 0.3*k1b;
 	kf[1].R[0] = (dt*dt) * k1b;
 
 	// First make a prediction of what the reading should have been, then correct it
