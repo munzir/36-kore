@@ -119,6 +119,7 @@ public:
 
 	ach_channel_t* imu_chan;							///< Imu sensor for balance angle
 	double imu, imuSpeed;									///< Latest imu readings (or the mean over a window)
+  double rawImu, rawImuSpeed;
 	filter_kalman_t* kfImu; 							///< The kalman filter for the imu readings
 
 	// FT* fts[2]; ///< Force/torque data from the arms, indexed by siden
