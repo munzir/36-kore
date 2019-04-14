@@ -54,7 +54,7 @@ Hardware::Hardware(Mode mode_, somatic_d_t* daemon_cx_,
 
   // Initialize all the 'optional' pointers to nulls and sanity check the inputs
   amc = torso = NULL;
-  //	fts[LEFT] = fts[RIGHT] = NULL;
+  //  fts[LEFT] = fts[RIGHT] = NULL;
   arms[LEFT] = arms[RIGHT] = NULL;
   grippers[LEFT] = grippers[RIGHT] = NULL;
   waistCmdChan = NULL;
@@ -108,15 +108,15 @@ Hardware::Hardware(Mode mode_, somatic_d_t* daemon_cx_,
   updateKinematics();
 
   // Determine the type of grippers from input mode
-  //	FT::GripperType ft_grippers;
-  //	if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
-  //	if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
+  //  FT::GripperType ft_grippers;
+  //  if(mode & MODE_GRIPPERS) ft_grippers = FT::GRIPPER_TYPE_ROBOTIQ;
+  //  if(mode & MODE_GRIPPERS_SCH) ft_grippers = FT::GRIPPER_TYPE_SCHUNK;
 
   // After initializing the rest of the robot (need kinematics), we can
   // initialize f/t sensors.
-  //	if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot,
-  //LEFT); 	if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx,
-  //robot, RIGHT);
+  //  if(mode & MODE_LARM) fts[LEFT] = new FT(ft_grippers, daemon_cx, robot,
+  // LEFT);  if(mode & MODE_RARM) fts[RIGHT] = new FT(ft_grippers, daemon_cx,
+  // robot, RIGHT);
 }
 
 /* ********************************************************************************************
@@ -128,8 +128,8 @@ Hardware::~Hardware() {
   if (kfImu) filter_kalman_destroy(kfImu);
 
   // Destroy the ft sensors
-  //	if(fts[LEFT] != NULL) delete fts[LEFT];
-  //	if(fts[RIGHT] != NULL) delete fts[RIGHT];
+  //  if(fts[LEFT] != NULL) delete fts[LEFT];
+  //  if(fts[RIGHT] != NULL) delete fts[RIGHT];
 
   // Send zero velocity to amc and clean it up
   double zeros2[2] = {0.0, 0.0},
@@ -166,7 +166,7 @@ Hardware::~Hardware() {
     delete grippers[RIGHT];
   }
 
-  // Stop and destroy	waist motors
+  // Stop and destroy waist motors
   if (waist != NULL) {
     // Create a waist daemon message with the stop mode
     Somatic__WaistCmd* waistDaemonCmd = somatic_waist_cmd_alloc();
@@ -234,8 +234,8 @@ void Hardware::updateSensors(double dt) {
   updateKinematics();
 
   // Update the f/t readings
-  //	if(mode & MODE_LARM) fts[LEFT]->updateExternal();
-  //	if(mode & MODE_RARM) fts[RIGHT]->updateExternal();
+  //  if(mode & MODE_LARM) fts[LEFT]->updateExternal();
+  //  if(mode & MODE_RARM) fts[RIGHT]->updateExternal();
 }
 /* ********************************************************************************************
  */
@@ -389,8 +389,8 @@ void Hardware::initMotorGroup(somatic_d_t* daemon_cx, somatic_motor_t*& motors,
   }
 
   // Update and reset them
-  //	somatic_motor_reset(daemon_cx, motors);
-  //	usleep(1e5);
+  //  somatic_motor_reset(daemon_cx, motors);
+  //  usleep(1e5);
   somatic_motor_update(daemon_cx, motors);
   usleep(1e5);
 }
