@@ -229,8 +229,8 @@ void Hardware::updateSensors(double dt) {
   if (mode & MODE_TORSO) somatic_motor_update(daemon_cx, torso);
   if (mode & MODE_WAIST) somatic_motor_update(daemon_cx, waist);
 
-  // Update the imu
-  getImu(imu_chan, imu, imuSpeed, dt, kfImu);
+	// Update the imu
+	getImu(imu_chan, imu, imuSpeed, dt, kfImu, &rawImu, &rawImuSpeed);
 
   // Update the arms
   if (mode & MODE_LARM) somatic_motor_update(daemon_cx, arms[LEFT]);
